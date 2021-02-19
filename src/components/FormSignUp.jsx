@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './Button';
 
-const FormSignUp = ({onLogIn}) => {
+const FormSignUp = ({onLogIn, onSubmit}) => {
   const [email, setEmail] = React.useState('');
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -21,15 +21,13 @@ const FormSignUp = ({onLogIn}) => {
   const signUpHandler = (evt) => {
     evt.preventDefault();
     console.log('email: ', email, 'userName: ', userName, 'password: ', password);
-    setEmail('');
-    setUserName('');
-    setPassword('');
+    onSubmit();
   }
 
   return (
     <div className="form">
       <h2>Регистрация</h2>
-      <form>
+      <form onSubmit={signUpHandler}>
         <label htmlFor="email">Email*</label>
         <input
           type="text"
@@ -54,12 +52,12 @@ const FormSignUp = ({onLogIn}) => {
           placeholder="*************"
           onChange={passwordChangeHandle}
           required />
-        <Button onClickSingUp={signUpHandler}>Зарегистрироваться</Button>
+        <Button>Зарегистрироваться</Button>
         <p>
           Уже зарегестрированны? 
-          <a onClick={onLogIn} href="#">
+          <button onClick={onLogIn}>
             Войти
-          </a>
+          </button>
         </p>
       </form>
     </div>

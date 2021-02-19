@@ -1,10 +1,8 @@
 import React from 'react';
 
-const Button = ({children, onSubmitClick}) => {
+const Button = ({children}) => {
   return (
-    <button onClick={onSubmitClick} className="btn">
-      {children}
-    </button>
+    <input type="submit" value={children} />
   )
 };
 

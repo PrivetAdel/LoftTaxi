@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormLogIn, FormSignUp} from '../components';
 
-const LoginPage = () => {
+const LoginPage = ({onSubmit}) => {
   const [activeForm, setActiveForm] = React.useState(true)
 
   const onToggleForm = () => {
@@ -12,7 +12,7 @@ const LoginPage = () => {
     <div>
       <h1 className="page-title">Login Page</h1>
       {
-        activeForm ? <FormLogIn onSignUp={onToggleForm} /> : <FormSignUp onLogIn={onToggleForm} />
+        activeForm ? <FormLogIn onSignUp={onToggleForm} onSubmit={onSubmit} /> : <FormSignUp onLogIn={onToggleForm} onSubmit={onSubmit} />
       }
     </div>
   );

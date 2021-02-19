@@ -10,13 +10,17 @@ const App = () => {
     setActivePage(evt.target.name);
   }
 
+  const onSubmitHandler = () => {
+    setActivePage('MapPage')
+  }
+
   const getPage = () => {
     switch (activePage) {
       case 'ProfilePage':
         return <ProfilePage />;
       
       case 'LoginPage':
-        return <LoginPage />;
+        return <LoginPage onSubmit={onSubmitHandler} />;
 
       default:
         return <MapPage />;

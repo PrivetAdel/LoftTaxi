@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './Button';
 
-const FormLogin = ({onSignUp}) => {
+const FormLogin = ({onSignUp, onSubmit}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -16,8 +16,7 @@ const FormLogin = ({onSignUp}) => {
   const submitFormHandler = (evt) => {
     evt.preventDefault();
     console.log('email: ', email, 'password: ', password);
-    setEmail('');
-    setPassword('');
+    onSubmit();
   }
 
   const forgotPasswordHandler = (evt) => {
@@ -28,7 +27,7 @@ const FormLogin = ({onSignUp}) => {
   return (
     <div className="form">
       <h2>Войти</h2>
-      <form>
+      <form onSubmit={submitFormHandler}>
         <label htmlFor="email">Email</label>
         <input
           type="text"
@@ -46,12 +45,12 @@ const FormLogin = ({onSignUp}) => {
           onChange={passwordChangeHandle}
           required />
         <button onClick={forgotPasswordHandler}>Забыли пароль?</button>
-        <Button onSubmitClick={submitFormHandler}>Войти</Button>
+        <Button>Войти</Button>
         <p>
           Новый пользователь?
-          <a onClick={onSignUp} href="#">
+          <button onClick={onSignUp}>
             Регистрация
-          </a>
+          </button>
         </p>
       </form>
     </div>
