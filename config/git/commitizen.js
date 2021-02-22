@@ -46,20 +46,20 @@ module.exports = {
     subject: "Напишите КОРОТКОЕ описание в ПОВЕЛИТЕЛЬНОМ наклонении:\n",
     body:
       'Напишите ПОДРОБНОЕ описание (опционально). Используйте "|" для новой строки:\n',
-    breaking: "Список BREAKING CHANGES (опционально):\n",
-    footer:
-      "Место для мета данных (тикетов, ссылок и остального). Например: MRKT-700, MRKT-800:\n",
-    confirmCommit: "Вас устраивает получившийся коммит?"
+    // breaking: "Список BREAKING CHANGES (опционально):\n",
+    // footer:
+    //   "Место для мета данных (тикетов, ссылок и остального). Например: MRKT-700, MRKT-800:\n",
+    // confirmCommit: "Вас устраивает получившийся коммит?"
   },
 
   // Разрешим собственную ОБЛАСТЬ
   allowCustomScopes: true,
 
   // Запрет на Breaking Changes
-  allowBreakingChanges: false,
+  // allowBreakingChanges: false,
 
   // Префикс для нижнего колонтитула
-  footerPrefix: "МЕТА ДАННЫЕ:",
+  // footerPrefix: "МЕТА ДАННЫЕ:",
 
   // limit subject length
   subjectLimit: 72
