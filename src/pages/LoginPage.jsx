@@ -10,7 +10,6 @@ const LoginPage = ({onSubmit}) => {
 
   return (
     <div>
-      <h1 className="page-title">Login Page</h1>
       {
         activeForm ? <FormLogIn onSignUp={onToggleForm} onSubmit={onSubmit} /> : <FormSignUp onLogIn={onToggleForm} onSubmit={onSubmit} />
       }

@@ -1,7 +1,19 @@
 import React from 'react';
-import Button from './Button';
+import {Grid, Typography, Button, InputLabel, Input, Link} from '@material-ui/core';
+import Form from './Form';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  button: {
+    borderRadius: '70px', 
+    padding: '9px 0',
+    fontSize: '24px',
+    margin: '46px 0 33px'
+  }
+});
 
 const FormSignUp = ({onLogIn, onSubmit}) => {
+  const classes = useStyles();
   const [email, setEmail] = React.useState('');
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -25,42 +37,56 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
   }
 
   return (
-    <div className="form">
-      <h2>Регистрация</h2>
-      <form onSubmit={signUpHandler}>
-        <label htmlFor="email">Email*</label>
-        <input
+    <Form title={'Регистрация'} onSubmitHandler={signUpHandler}>
+      <Grid item sm={12} >
+        <InputLabel htmlFor="email" >Email*</InputLabel>
+        <Input
           type="text"
           id="email"
           value={email}
           placeholder="mail@mail.ru"
           onChange={emailChangeHandle}
+          fullWidth
           required />
-        <label htmlFor="userName">Как вас зовут?*</label>
-        <input
+      </Grid>
+
+      <Grid item sm={12} >
+        <InputLabel htmlFor="userName" >Как вас зовут?*</InputLabel>
+        <Input
           type="text"
           id="userName"
           value={userName}
           placeholder="Петр Александрович"
           onChange={userNameChangeHandle}
+          fullWidth
           required />
-        <label htmlFor="password">Придумайте пароль*</label>
-        <input
+      </Grid>
+
+      <Grid item sm={12} >
+        <InputLabel htmlFor="password" >Придумайте пароль*</InputLabel>
+        <Input
           type="text"
           id="password"
           value={password}
           placeholder="*************"
           onChange={passwordChangeHandle}
+          fullWidth
           required />
-        <Button>Зарегистрироваться</Button>
-        <p>
+      </Grid>
+
+      <Grid item sm={12} >
+        <Button fullWidth type="submit" variant="contained" color="primary" className={classes.button} disabled >Зарегистрироваться</Button>
+      </Grid>
+      
+      <Grid justify="center" container >
+        <Typography color="textSecondary">
           Уже зарегестрированны? 
-          <button onClick={onLogIn}>
+          <Link onClick={onLogIn} >
             Войти
-          </button>
-        </p>
-      </form>
-    </div>
+          </Link>
+        </Typography>
+      </Grid>
+    </Form>
   );
 };
 

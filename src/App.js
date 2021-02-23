@@ -1,9 +1,17 @@
 import React from 'react';
 import {Header} from './components';
-import {MapPage, ProfilePage, LoginPage} from './pages'
-import './App.css';
+import {MapPage, ProfilePage, LoginPage} from './pages';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  main: {
+    marginTop: '77px'
+  }
+});
 
 const App = () => {
+  const classes = useStyles();
+
   const [activePage, setActivePage] = React.useState('MapPage');
 
   const changeActivePageHandler = (evt) => {
@@ -28,9 +36,11 @@ const App = () => {
   }
 
   return (
-    <div className="app">
+    <div>
       <Header onClickPage={changeActivePageHandler} />
-      {getPage()}
+      <main className={classes.main}>
+        {getPage()}
+      </main>
     </div>
   );
 }

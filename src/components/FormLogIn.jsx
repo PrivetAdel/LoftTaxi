@@ -1,7 +1,22 @@
 import React from 'react';
-import Button from './Button';
+import {Grid, Typography, Button, InputLabel, Input, Link} from '@material-ui/core';
+import Form from './Form';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  link: {
+    color: '#828282'
+  },
+  button: {
+    borderRadius: '70px', 
+    padding: '9px 0',
+    fontSize: '24px',
+    margin: '46px 0 33px'
+  }
+});
 
 const FormLogin = ({onSignUp, onSubmit}) => {
+  const classes = useStyles();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -25,35 +40,48 @@ const FormLogin = ({onSignUp, onSubmit}) => {
   }
 
   return (
-    <div className="form">
-      <h2>Войти</h2>
-      <form onSubmit={submitFormHandler}>
-        <label htmlFor="email">Email</label>
-        <input
+    <Form title={'Войти'} onSubmitHandler={submitFormHandler} >
+      <Grid item sm={12} >
+        <InputLabel htmlFor="email" >Email</InputLabel>
+        <Input
           type="text"
           id="email"
           value={email}
           placeholder="mail@mail.ru"
           onChange={emailChangeHandle}
+          fullWidth
           required />
-        <label htmlFor="password">Пароль</label>
-        <input
+      </Grid>
+      
+      <Grid item xs={12} >
+        <InputLabel htmlFor="password" >Пароль</InputLabel>
+        <Input
           type="text"
           id="password"
           value={password}
           placeholder="*************"
           onChange={passwordChangeHandle}
+          fullWidth
           required />
-        <button onClick={forgotPasswordHandler}>Забыли пароль?</button>
-        <Button>Войти</Button>
-        <p>
-          Новый пользователь?
-          <button onClick={onSignUp}>
+      </Grid>
+
+      <Grid justify="flex-end" container >
+        <Link onClick={forgotPasswordHandler} className={classes.link} >Забыли пароль?</Link>
+      </Grid> 
+
+      <Grid item xs={12} >
+        <Button className={classes.button} fullWidth type="submit" variant="contained" color="primary">Войти</Button>
+      </Grid>
+      
+      <Grid justify="center" container >
+        <Typography color="textSecondary">
+          Новый пользователь? 
+          <Link onClick={onSignUp}>
             Регистрация
-          </button>
-        </p>
-      </form>
-    </div>
+          </Link>
+        </Typography>
+      </Grid>
+    </Form>
   );
 };
 
