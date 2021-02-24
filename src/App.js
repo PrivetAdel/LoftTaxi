@@ -1,5 +1,5 @@
 import React from 'react';
-import {Header} from './components';
+import {Provider, Header} from './components';
 import {MapPage, ProfilePage, LoginPage} from './pages';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -11,15 +11,20 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
-
-  const [activePage, setActivePage] = React.useState('MapPage');
+  const [activePage, setActivePage] = React.useState('LoginPage');
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   const changeActivePageHandler = (evt) => {
     setActivePage(evt.target.name);
   }
 
+  const logoutHandler = () => {
+    authorizationState.logout()
+  }
+
   const onSubmitHandler = () => {
-    setActivePage('MapPage')
+    setActivePage('MapPage');
+    authorizationState.login();
   }
 
   const getPage = () => {
@@ -27,21 +32,35 @@ const App = () => {
       case 'ProfilePage':
         return <ProfilePage />;
       
-      case 'LoginPage':
-        return <LoginPage onSubmit={onSubmitHandler} />;
+      case 'MapPage':
+        return <MapPage />;
 
       default:
-        return <MapPage />;
+        return <LoginPage onSubmit={onSubmitHandler} />;
     }
   }
 
+  const loginHandler = (email, password) => {
+    if (email && password) {
+      setIsLoggedIn(true);
+    }
+
+    return;
+  }
+
+  const authorizationState = ({
+    login: loginHandler,
+    logout: () => setIsLoggedIn(false),
+    isLoggedIn: isLoggedIn
+  });
+
   return (
-    <div>
-      <Header onClickPage={changeActivePageHandler} />
+    <Provider value={authorizationState}>
+      <Header onClickPage={changeActivePageHandler} onClickLogout={logoutHandler} />
       <main className={classes.main}>
         {getPage()}
       </main>
-    </div>
+    </Provider>
   );
 }
 

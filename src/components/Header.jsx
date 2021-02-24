@@ -1,4 +1,5 @@
 import React from 'react';
+import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {AppBar, MenuList, Link, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import logoPic from '../assets/logo-pic.svg';
@@ -25,10 +26,18 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({onClickPage}) => {
+const Header = ({onClickPage, onClickLogout}) => {
+  const value = React.useContext(AuthorizationContecxt);
+  const logoutBatton = React.useRef(null);
   const classes = useStyles();
 
+  const logoutHandler = () => {
+    onClickPage(logoutBatton.current);
+    onClickLogout();
+  }
+
   return (
+    value.isLoggedIn ?
     <AppBar className={classes.root} >
 
       <Link className={classes.logo} href="#">
@@ -46,11 +55,12 @@ const Header = ({onClickPage}) => {
         </MenuItem>
 
         <MenuItem >
-          <Link onClick={onClickPage} name="LoginPage" href="#">Выйти</Link>
+          <Link ref={logoutBatton} onClick={logoutHandler} name="LoginPage" href="#">Выйти</Link>
         </MenuItem>
         
       </MenuList>
-    </AppBar>
+    </AppBar> 
+    : null
   );
 };
 

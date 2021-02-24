@@ -3,6 +3,7 @@ import {Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {FormContainer} from './FormContainer';
 import {Form} from './Form';
 import {SubmitButton} from './SubmitButton';
+import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FormLogin = ({onSignUp, onSubmit}) => {
   const classes = useStyles();
+  const value = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -33,7 +35,7 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 
   const submitFormHandler = (evt) => {
     evt.preventDefault();
-    console.log('email: ', email, 'password: ', password);
+    value.login(email, password);
     onSubmit();
   }
 
