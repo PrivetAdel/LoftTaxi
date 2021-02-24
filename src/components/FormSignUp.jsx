@@ -1,16 +1,19 @@
 import React from 'react';
-import {Grid, Typography, Button, InputLabel, Input, Link} from '@material-ui/core';
-import Form from './Form';
+import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import {FormContainer} from './FormContainer';
+import {Form} from './Form';
+import {SubmitButton} from './SubmitButton';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-  button: {
-    borderRadius: '70px', 
-    padding: '9px 0',
-    fontSize: '24px',
-    margin: '46px 0 33px'
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontWeight: 700,
+    margin: theme.spacing(1, 0, 2)
+  },
+  label: {
+    marginTop: theme.spacing(3)
   }
-});
+}));
 
 const FormSignUp = ({onLogIn, onSubmit}) => {
   const classes = useStyles();
@@ -37,9 +40,13 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
   }
 
   return (
-    <Form title={'Регистрация'} onSubmitHandler={signUpHandler}>
-      <Grid item sm={12} >
-        <InputLabel htmlFor="email" >Email*</InputLabel>
+    <FormContainer>
+      <Typography className={classes.title} align="center" variant="h4">
+        Регистрация
+      </Typography>
+
+      <Form onSubmitHandler={signUpHandler}>
+        <InputLabel htmlFor="email" className={classes.label} >Email*</InputLabel>
         <Input
           type="text"
           id="email"
@@ -48,10 +55,8 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
           onChange={emailChangeHandle}
           fullWidth
           required />
-      </Grid>
 
-      <Grid item sm={12} >
-        <InputLabel htmlFor="userName" >Как вас зовут?*</InputLabel>
+        <InputLabel htmlFor="userName" className={classes.label} >Как вас зовут?*</InputLabel>
         <Input
           type="text"
           id="userName"
@@ -60,10 +65,8 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
           onChange={userNameChangeHandle}
           fullWidth
           required />
-      </Grid>
 
-      <Grid item sm={12} >
-        <InputLabel htmlFor="password" >Придумайте пароль*</InputLabel>
+        <InputLabel htmlFor="password" className={classes.label} >Придумайте пароль*</InputLabel>
         <Input
           type="text"
           id="password"
@@ -72,21 +75,17 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
           onChange={passwordChangeHandle}
           fullWidth
           required />
-      </Grid>
 
-      <Grid item sm={12} >
-        <Button fullWidth type="submit" variant="contained" color="primary" className={classes.button} disabled >Зарегистрироваться</Button>
-      </Grid>
-      
-      <Grid justify="center" container >
-        <Typography color="textSecondary">
+        <SubmitButton>Зарегистрироваться</SubmitButton>
+
+        <Typography color="textSecondary" align="center">
           Уже зарегестрированны? 
           <Link onClick={onLogIn} >
             Войти
           </Link>
         </Typography>
-      </Grid>
-    </Form>
+      </Form>
+    </FormContainer>
   );
 };
 

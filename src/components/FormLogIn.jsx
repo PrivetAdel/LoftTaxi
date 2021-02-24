@@ -1,19 +1,22 @@
 import React from 'react';
-import {Grid, Typography, Button, InputLabel, Input, Link} from '@material-ui/core';
-import Form from './Form';
+import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import {FormContainer} from './FormContainer';
+import {Form} from './Form';
+import {SubmitButton} from './SubmitButton';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontWeight: 700,
+    margin: theme.spacing(1, 0, 2)
+  },
+  label: {
+    marginTop: theme.spacing(3)
+  },
   link: {
     color: '#828282'
   },
-  button: {
-    borderRadius: '70px', 
-    padding: '9px 0',
-    fontSize: '24px',
-    margin: '46px 0 33px'
-  }
-});
+}));
 
 const FormLogin = ({onSignUp, onSubmit}) => {
   const classes = useStyles();
@@ -40,9 +43,14 @@ const FormLogin = ({onSignUp, onSubmit}) => {
   }
 
   return (
-    <Form title={'Войти'} onSubmitHandler={submitFormHandler} >
-      <Grid item sm={12} >
-        <InputLabel htmlFor="email" >Email</InputLabel>
+    <FormContainer>
+      <Typography className={classes.title} align="center" variant="h4">
+        Войти
+      </Typography>
+
+      <Form onSubmitHandler={submitFormHandler} >
+
+        <InputLabel htmlFor="email" className={classes.label} >Email</InputLabel>
         <Input
           type="text"
           id="email"
@@ -51,10 +59,8 @@ const FormLogin = ({onSignUp, onSubmit}) => {
           onChange={emailChangeHandle}
           fullWidth
           required />
-      </Grid>
-      
-      <Grid item xs={12} >
-        <InputLabel htmlFor="password" >Пароль</InputLabel>
+
+        <InputLabel htmlFor="password" className={classes.label} >Пароль</InputLabel>
         <Input
           type="text"
           id="password"
@@ -63,25 +69,21 @@ const FormLogin = ({onSignUp, onSubmit}) => {
           onChange={passwordChangeHandle}
           fullWidth
           required />
-      </Grid>
-
-      <Grid justify="flex-end" container >
-        <Link onClick={forgotPasswordHandler} className={classes.link} >Забыли пароль?</Link>
-      </Grid> 
-
-      <Grid item xs={12} >
-        <Button className={classes.button} fullWidth type="submit" variant="contained" color="primary">Войти</Button>
-      </Grid>
+        
+        <Typography align="right" className={classes.label} >
+          <Link onClick={forgotPasswordHandler} className={classes.link}>Забыли пароль?</Link>
+        </Typography>
+        
+        <SubmitButton>Войти</SubmitButton>
       
-      <Grid justify="center" container >
-        <Typography color="textSecondary">
+        <Typography color="textSecondary" align="center">
           Новый пользователь? 
           <Link onClick={onSignUp}>
             Регистрация
           </Link>
         </Typography>
-      </Grid>
-    </Form>
+      </Form>
+    </FormContainer>
   );
 };
 

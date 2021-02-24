@@ -1,6 +1,6 @@
 import {createMuiTheme} from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+export const loftTaxiTheme = createMuiTheme({
   breakpoints: {
     keys: ['xs', 'sm', 'md', 'lg', 'xl'],
     values: {
@@ -72,5 +72,3 @@ const theme = createMuiTheme({
     }
   }
 });
-
-export default theme;
