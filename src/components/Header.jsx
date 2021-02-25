@@ -4,6 +4,7 @@ import {AppBar, MenuList, Link, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import logoPic from '../assets/logo-pic.svg';
 import logoText from '../assets/logo-text.svg';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 const Header = ({onClickPage, onClickLogout}) => {
-  const value = React.useContext(AuthorizationContecxt);
+  const {isLoggedIn} = React.useContext(AuthorizationContecxt);
   const logoutBatton = React.useRef(null);
   const classes = useStyles();
 
@@ -37,7 +38,7 @@ const Header = ({onClickPage, onClickLogout}) => {
   }
 
   return (
-    value.isLoggedIn ?
+    isLoggedIn ?
     <AppBar className={classes.root} >
 
       <Link className={classes.logo} href="#">
@@ -62,6 +63,16 @@ const Header = ({onClickPage, onClickLogout}) => {
     </AppBar> 
     : null
   );
+};
+
+Header.propTypes = {
+  onClickPage: PropTypes.func.isRequired,
+  onClickLogout: PropTypes.func.isRequired
+};
+
+Header.defaultProps = {
+  onClickPage: () => {},
+  onClickLogout: () => {}
 };
 
 export default Header;

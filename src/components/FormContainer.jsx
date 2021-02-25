@@ -1,6 +1,7 @@
 import React from 'react';
 import {Container} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,16 +15,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const FormContainer = ({children, ...props}) => {
+export const FormContainer = ({children}) => {
   const classes = useStyles();
 
   return (
     <Container 
       className={classes.root}
       maxWidth="sm"
-      {...props}
     >
       {children}
     </Container>
   );
 }; 
+
+FormContainer.propTypes = {
+  children: PropTypes.node.isRequired
+};

@@ -5,6 +5,7 @@ import {Form} from './Form';
 import {SubmitButton} from './SubmitButton';
 import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {makeStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FormLogin = ({onSignUp, onSubmit}) => {
   const classes = useStyles();
-  const value = React.useContext(AuthorizationContecxt);
+  const {login} = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -35,7 +36,7 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 
   const submitFormHandler = (evt) => {
     evt.preventDefault();
-    value.login(email, password);
+    login(email, password);
     onSubmit();
   }
 
@@ -87,6 +88,16 @@ const FormLogin = ({onSignUp, onSubmit}) => {
       </Form>
     </FormContainer>
   );
+};
+
+FormLogin.propTypes = {
+  onSignUp: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};
+
+FormLogin.defaultProps = {
+  onSignUp: () => {},
+  onSubmit: () => {}
 };
 
 export default FormLogin;

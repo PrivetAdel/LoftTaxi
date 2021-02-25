@@ -3,7 +3,9 @@ import {Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {FormContainer} from './FormContainer';
 import {Form} from './Form';
 import {SubmitButton} from './SubmitButton';
+import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {makeStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -17,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FormSignUp = ({onLogIn, onSubmit}) => {
   const classes = useStyles();
+  const {login} = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -35,7 +38,7 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
 
   const signUpHandler = (evt) => {
     evt.preventDefault();
-    console.log('email: ', email, 'userName: ', userName, 'password: ', password);
+    login(email, password);
     onSubmit();
   }
 
@@ -87,6 +90,16 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
       </Form>
     </FormContainer>
   );
+};
+
+FormSignUp.propTypes = {
+  onLogIn: PropTypes.func.isRequired, 
+  onSubmit: PropTypes.func.isRequired
+};
+
+FormSignUp.defaultProps = {
+  onLogIn: () => {},
+  onSubmit: () => {}
 };
 
 export default FormSignUp;
