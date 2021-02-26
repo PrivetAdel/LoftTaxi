@@ -27,7 +27,7 @@ const Map = () => {
   }, []);
 
   return (
-    <div style={{position: 'absolute', top: '0', bottom: '0', width: '100%'}} ref={mapContainer}></div>
+    <div style={{position: 'absolute', top: '0', bottom: '0', width: '100%'}} data-testid="map" ref={mapContainer}></div>
   );
 };
 

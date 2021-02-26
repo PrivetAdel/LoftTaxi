@@ -12,8 +12,8 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
-  const [activePage, setActivePage] = React.useState('LoginPage');
-  const {login, logout} = React.useContext(AuthorizationContecxt);
+  const [activePage, setActivePage] = React.useState('MapPage');
+  const {isLoggedIn, login, logout} = React.useContext(AuthorizationContecxt);
   
   const changeActivePageHandler = (evt) => {
     setActivePage(evt.target.name);
@@ -29,11 +29,11 @@ const App = () => {
       case 'ProfilePage':
         return <ProfilePage />;
       
-      case 'MapPage':
-        return <MapPage />;
+      case 'LoginPage':
+        return <LoginPage onSubmit={onSubmitHandler} />;
 
       default:
-        return <LoginPage onSubmit={onSubmitHandler} />;
+        return <MapPage />;
     }
   }
 
@@ -41,7 +41,7 @@ const App = () => {
     <>
       <Header onClickPage={changeActivePageHandler} onClickLogout={logout} />
       <main className={classes.main}>
-        {getPage()}
+        {isLoggedIn ? getPage() : <LoginPage onSubmit={onSubmitHandler} />}
       </main>
     </>
   );
