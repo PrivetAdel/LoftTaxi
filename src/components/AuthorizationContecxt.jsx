@@ -3,29 +3,27 @@ import PropTypes from 'prop-types';
 
 export const AuthorizationContecxt = React.createContext();
 
-export const Provider = ({children, value}) => {
+export const Provider = ({children}) => {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  const login = (email, password) => {
+    if (email && password) {
+      setIsLoggedIn(true);
+    }
+    return;
+  }
+
+  const logout = () => setIsLoggedIn(false);
+
   return (
-    <AuthorizationContecxt.Provider value={value}>
+    <AuthorizationContecxt.Provider value={{isLoggedIn, login, logout}}>
       {children}
     </AuthorizationContecxt.Provider>
   );
 };
 
 Provider.propTypes = {
-  children: PropTypes.node,
-  value: PropTypes.shape({
-    login: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired
-  }).isRequired
-};
-
-Provider.defaultProps = {
-  value: {
-    login: () => {},
-    logout: () => {},
-    isLoggedIn: false
-  }
+  children: PropTypes.node
 };
 
 export default Provider;

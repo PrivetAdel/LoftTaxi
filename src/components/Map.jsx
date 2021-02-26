@@ -19,7 +19,11 @@ const Map = () => {
       center: [37.618423, 55.751244],
     });
 
-    map.addControl(new mapboxgl.NavigationControl(), "bottom-right")
+    map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+
+    return () => {
+      map.remove();
+    }
   }, []);
 
   return (
