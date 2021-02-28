@@ -16,6 +16,7 @@ export const Form = ({children, onSubmitHandler}) => {
     <form 
       className={classes.root}
       onSubmit={onSubmitHandler}
+      data-testid="form"
     >
       {children}
     </form>

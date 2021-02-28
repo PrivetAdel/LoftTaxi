@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
     "mapbox-gl": "^2.1.1",
     "prop-types": "^15.7.2",
@@ -53,7 +54,6 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
-    "@testing-library/react": "^11.2.5",
     "cz-customizable": "^6.3.0",
     "husky": "^5.0.9",
     "worker-loader": "^3.0.8"

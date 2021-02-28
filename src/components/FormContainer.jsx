@@ -21,6 +21,7 @@ export const FormContainer = ({children}) => {
   return (
     <Container 
       className={classes.root}
+      data-testid="container"
       maxWidth="sm"
     >
       {children}
