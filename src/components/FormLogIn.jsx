@@ -47,7 +47,7 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 
   return (
     <FormContainer>
-      <Typography className={classes.title} align="center" variant="h4">
+      <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Войти
       </Typography>
 

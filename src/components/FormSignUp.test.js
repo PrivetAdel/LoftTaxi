@@ -5,8 +5,8 @@ import FormSignUp from './FormSignUp';
 
 describe("FormSignUp", () => {
   const props = {
-    onLogIn: jest.fn, 
-    onSubmit: jest.fn
+    onLogIn: jest.fn(), 
+    onSubmit: jest.fn()
   };
 
   let isLoggedIn = false;
@@ -45,5 +45,30 @@ describe("FormSignUp", () => {
     const inputPassword = getByLabelText(/Пароль/i);
     fireEvent.change(inputPassword, {target: {value: '123123'}});
     expect(inputPassword.value).toBe('123123');
+  });
+
+  it("click on link 'Войти'", () => {
+    const {getByText} = render(
+      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+        <FormSignUp {...props} />
+      </AuthorizationContecxt.Provider>
+    );
+
+    const link = getByText(/Войти/i);
+    fireEvent.click(link);
+    expect(props.onLogIn).toHaveBeenCalled();
+  });
+
+  it("submit form", () => {
+    const login = jest.fn();
+
+    const {getByTestId} = render(
+      <AuthorizationContecxt.Provider value={{isLoggedIn, login}}>
+        <FormSignUp {...props} />
+      </AuthorizationContecxt.Provider>
+    );
+
+    fireEvent.submit(getByTestId('form'));
+    expect(login).toHaveBeenCalled();
   });
 });

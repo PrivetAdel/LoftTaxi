@@ -2,12 +2,11 @@ import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
 import {AuthorizationContecxt} from './AuthorizationContecxt';
 import FormLogin from './FormLogin';
-import Form from './Form';
 
 describe("FormLogin", () => {
   const props = {
-    onSignUp: jest.fn, 
-    onSubmit: jest.fn
+    onSignUp: jest.fn(), 
+    onSubmit: jest.fn()
   };
 
   let isLoggedIn = false;
@@ -45,26 +44,19 @@ describe("FormLogin", () => {
 
     const link = getByText(/Регистрация/i);
     fireEvent.click(link);
-    expect(link).toHaveBeenCalled();
+    expect(props.onSignUp).toHaveBeenCalled();
   });
 
-  it("click on submit button", () => {
-    const onSubmitHandler = jest.fn();
+  it("submit form", () => {
+    const login = jest.fn();
 
-    const {getByLabelText, getByRole} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
-        <FormLogin {...props}>
-          <Form onSubmitHandler={onSubmitHandler} />
-        </FormLogin>
+    const {getByTestId} = render(
+      <AuthorizationContecxt.Provider value={{isLoggedIn, login}}>
+        <FormLogin {...props} />
       </AuthorizationContecxt.Provider>
     );
 
-    const inputEmail = getByLabelText(/Email/i);
-    fireEvent.change(inputEmail, {target: {value: 'test@test.com'}});
-    const inputPassword = getByLabelText(/Пароль/i);
-    fireEvent.change(inputPassword, {target: {value: '123123'}});
-
-    fireEvent.click(getByRole('button'));
-    expect(onSubmitHandler).toHaveBeenCalled();
+    fireEvent.submit(getByTestId('form'));
+    expect(login).toHaveBeenCalled();
   });
 });

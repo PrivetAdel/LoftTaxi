@@ -1,8 +1,6 @@
 import "@testing-library/jest-dom";
 
-window.URL.createObjectURL = function() {};
-
-jest.mock('mapbox-gl/dist/mapbox-gl-csp-worker', () => ({
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
     GeolocateControl: jest.fn(),
     Map: jest.fn(() => ({
       addControl: jest.fn(),

@@ -5,8 +5,8 @@ import {AuthorizationContecxt} from './AuthorizationContecxt';
 
 describe("Header", () => {
   const props = {
-    onClickPage: jest.fn, 
-    onClickLogout: jest.fn
+    onClickPage: jest.fn(), 
+    onClickLogout: jest.fn()
   };
 
 
