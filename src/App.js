@@ -1,17 +1,27 @@
 import React from 'react';
 import {Header} from './components';
-import {MapPage, ProfilePage, LoginPage} from './pages'
-import './App.css';
+import {AuthorizationContecxt} from './components/AuthorizationContecxt';
+import {MapPage, ProfilePage, LoginPage} from './pages';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  main: {
+    marginTop: '77px'
+  }
+});
 
 const App = () => {
+  const classes = useStyles();
   const [activePage, setActivePage] = React.useState('MapPage');
-
+  const {isLoggedIn, login, logout} = React.useContext(AuthorizationContecxt);
+  
   const changeActivePageHandler = (evt) => {
     setActivePage(evt.target.name);
   }
 
   const onSubmitHandler = () => {
-    setActivePage('MapPage')
+    setActivePage('MapPage');
+    login();
   }
 
   const getPage = () => {
@@ -28,10 +38,12 @@ const App = () => {
   }
 
   return (
-    <div className="app">
-      <Header onClickPage={changeActivePageHandler} />
-      {getPage()}
-    </div>
+    <>
+      <Header onClickPage={changeActivePageHandler} onClickLogout={logout} />
+      <main className={classes.main}>
+        {isLoggedIn ? getPage() : <LoginPage onSubmit={onSubmitHandler} />}
+      </main>
+    </>
   );
 }
 

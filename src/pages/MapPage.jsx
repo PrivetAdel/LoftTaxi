@@ -1,8 +1,9 @@
 import React from 'react';
+import {Map} from '../components';
 
 const MapPage = () => {
   return (
-    <h1 className="page-title">Map Page</h1>
+    <Map></Map>
   );
 };
 

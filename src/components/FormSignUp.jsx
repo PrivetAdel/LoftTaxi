@@ -1,7 +1,25 @@
 import React from 'react';
-import Button from './Button';
+import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import {FormContainer} from './FormContainer';
+import {Form} from './Form';
+import {SubmitButton} from './SubmitButton';
+import {AuthorizationContecxt} from './AuthorizationContecxt';
+import {makeStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontWeight: 700,
+    margin: theme.spacing(1, 0, 2)
+  },
+  label: {
+    marginTop: theme.spacing(3)
+  }
+}));
 
 const FormSignUp = ({onLogIn, onSubmit}) => {
+  const classes = useStyles();
+  const {login} = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -20,48 +38,68 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
 
   const signUpHandler = (evt) => {
     evt.preventDefault();
-    console.log('email: ', email, 'userName: ', userName, 'password: ', password);
+    login(email, password);
     onSubmit();
   }
 
   return (
-    <div className="form">
-      <h2>Регистрация</h2>
-      <form onSubmit={signUpHandler}>
-        <label htmlFor="email">Email*</label>
-        <input
+    <FormContainer>
+      <Typography className={classes.title} align="center" variant="h4">
+        Регистрация
+      </Typography>
+
+      <Form onSubmitHandler={signUpHandler}>
+        <InputLabel htmlFor="email" className={classes.label} >Email*</InputLabel>
+        <Input
           type="text"
           id="email"
           value={email}
           placeholder="mail@mail.ru"
           onChange={emailChangeHandle}
+          fullWidth
           required />
-        <label htmlFor="userName">Как вас зовут?*</label>
-        <input
+
+        <InputLabel htmlFor="userName" className={classes.label} >Как вас зовут?*</InputLabel>
+        <Input
           type="text"
           id="userName"
           value={userName}
           placeholder="Петр Александрович"
           onChange={userNameChangeHandle}
+          fullWidth
           required />
-        <label htmlFor="password">Придумайте пароль*</label>
-        <input
+
+        <InputLabel htmlFor="password" className={classes.label} >Придумайте пароль*</InputLabel>
+        <Input
           type="text"
           id="password"
           value={password}
           placeholder="*************"
           onChange={passwordChangeHandle}
+          fullWidth
           required />
-        <Button>Зарегистрироваться</Button>
-        <p>
+
+        <SubmitButton>Зарегистрироваться</SubmitButton>
+
+        <Typography color="textSecondary" align="center">
           Уже зарегестрированны? 
-          <button onClick={onLogIn}>
+          <Link onClick={onLogIn} >
             Войти
-          </button>
-        </p>
-      </form>
-    </div>
+          </Link>
+        </Typography>
+      </Form>
+    </FormContainer>
   );
+};
+
+FormSignUp.propTypes = {
+  onLogIn: PropTypes.func.isRequired, 
+  onSubmit: PropTypes.func.isRequired
+};
+
+FormSignUp.defaultProps = {
+  onLogIn: () => {},
+  onSubmit: () => {}
 };
 
 export default FormSignUp;
