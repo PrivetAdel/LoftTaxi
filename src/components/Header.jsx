@@ -1,10 +1,11 @@
 import React from 'react';
 import {AuthorizationContecxt} from './AuthorizationContecxt';
-import {AppBar, MenuList, Link, MenuItem} from '@material-ui/core';
+import {AppBar, MenuList, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import logoPic from '../assets/logo-pic.svg';
 import logoText from '../assets/logo-text.svg';
 import PropTypes from 'prop-types';
+import {Link, NavLink} from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -27,36 +28,30 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({onClickPage, onClickLogout}) => {
+const Header = ({onClickLogout}) => {
   const {isLoggedIn} = React.useContext(AuthorizationContecxt);
-  const logoutBatton = React.useRef(null);
   const classes = useStyles();
-
-  const logoutHandler = () => {
-    onClickPage(logoutBatton.current);
-    onClickLogout();
-  }
 
   return (
     isLoggedIn ?
     <AppBar className={classes.root} >
 
-      <Link className={classes.logo} href="#">
+      <Link className={classes.logo} to="/" exact>
         <img width="61" height="61" src={logoPic} alt="loft-taxi logo-pic"/>
         <img width="196" height="32" src={logoText} alt="loft-taxi logo-text"/>
       </Link>
 
       <MenuList className={classes.nav}>
         <MenuItem >
-          <Link onClick={onClickPage} name="MapPage" href="#">Карта</Link>
+          <NavLink to="/" >Карта</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <Link onClick={onClickPage} name="ProfilePage" href="#">Профиль</Link>
+          <NavLink to="/ProfilePage" >Профиль</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <Link ref={logoutBatton} onClick={logoutHandler} name="LoginPage" href="#">Выйти</Link>
+          <NavLink onClick={onClickLogout} to="/LoginPage" >Выйти</NavLink>
         </MenuItem>
         
       </MenuList>
@@ -66,12 +61,10 @@ const Header = ({onClickPage, onClickLogout}) => {
 };
 
 Header.propTypes = {
-  onClickPage: PropTypes.func.isRequired,
-  onClickLogout: PropTypes.func.isRequired
+  onClickLogout: PropTypes.func
 };
 
 Header.defaultProps = {
-  onClickPage: () => {},
   onClickLogout: () => {}
 };
 

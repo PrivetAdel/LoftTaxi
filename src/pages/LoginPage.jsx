@@ -1,18 +1,22 @@
 import React from 'react';
 import {FormLogIn, FormSignUp} from '../components';
+import {Redirect} from 'react-router-dom';
+import {AuthorizationContecxt} from '../components/AuthorizationContecxt';
 import PropTypes from 'prop-types';
 
-const LoginPage = ({onSubmit}) => {
-  const [activeForm, setActiveForm] = React.useState(true)
+const LoginPage = () => {
+  const [activeForm, setActiveForm] = React.useState(true);
+  const {isLoggedIn, logout} = React.useContext(AuthorizationContecxt);
 
   const onToggleForm = () => {
     setActiveForm((state) => !state);
-  }
+  };
 
   return (
     <div>
-      {
-        activeForm ? <FormLogIn onSignUp={onToggleForm} onSubmit={onSubmit} /> : <FormSignUp onLogIn={onToggleForm} onSubmit={onSubmit} />
+      { 
+        isLoggedIn ? <Redirect to="/" /> :
+        (activeForm ? <FormLogIn onSignUp={onToggleForm} onSubmit={logout} /> : <FormSignUp onLogIn={onToggleForm} onSubmit={logout} />)
       }
     </div>
   );

@@ -9,7 +9,7 @@ export const Provider = ({children}) => {
 
   const login = (email, password) => {
     return postAuth(email, password).then(result => setIsLoggedIn(result.success));
-  }
+  };
 
   const logout = () => setIsLoggedIn(false);
 

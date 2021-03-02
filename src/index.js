@@ -5,12 +5,15 @@ import App from './App';
 import {Provider} from './components';
 import {loftTaxiTheme} from './loftTaxiTheme';
 import {MuiThemeProvider} from '@material-ui/core/styles';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <MuiThemeProvider theme={loftTaxiTheme}>
       <Provider>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </Provider>
     </MuiThemeProvider>
   </React.StrictMode>,
