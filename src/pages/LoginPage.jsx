@@ -1,11 +1,12 @@
 import React from 'react';
 import {FormLogIn, FormSignUp} from '../components';
 import {Redirect} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
-const LoginPage = ({auth}) => {
+const LoginPage = () => {
   const [activeForm, setActiveForm] = React.useState(true);
-
+  const isLoggedIn = useSelector(({authReducer}) => authReducer.isLoggedIn);
+  
   const onToggleForm = () => {
     setActiveForm((state) => !state);
   };
@@ -13,19 +14,11 @@ const LoginPage = ({auth}) => {
   return (
     <div>
       { 
-        auth ? <Redirect to="/" /> :
+        isLoggedIn ? <Redirect to="/" /> :
         (activeForm ? <FormLogIn onSignUp={onToggleForm} /> : <FormSignUp onLogIn={onToggleForm} />)
       }
     </div>
   );
-};
-
-LoginPage.propTypes = {
-  auth: PropTypes.bool.isRequired
-};
-
-LoginPage.defaultProps = {
-  auth: false
 };
 
 export default LoginPage;

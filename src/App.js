@@ -18,11 +18,12 @@ const App = () => {
   return (
     <>
       <main className={classes.main}>
+        {isLoggedIn && <Header />}
+
         <Switch>
-          {isLoggedIn && <Header />}
-          <PrivateRoute auth={isLoggedIn} exact path="/" component={() => <MapPage />} />
-          <PrivateRoute auth={isLoggedIn} path="/ProfilePage" component={() => <ProfilePage />} />
-          <Route auth={isLoggedIn} path="/LoginPage" component={() => <LoginPage />}  />
+          <PrivateRoute auth={isLoggedIn} exact path="/" component={MapPage} />
+          <PrivateRoute auth={isLoggedIn} path="/ProfilePage" component={ProfilePage} />
+          <Route path="/LoginPage" component={LoginPage}  />
         </Switch>
       </main>
     </>

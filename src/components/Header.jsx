@@ -38,7 +38,7 @@ const Header = () => {
 
   return (
     <AppBar className={classes.root} >
-      <Link className={classes.logo} to="/" exact>
+      <Link className={classes.logo} to="/" >
         <img width="61" height="61" src={logoPic} alt="loft-taxi logo-pic"/>
         <img width="196" height="32" src={logoText} alt="loft-taxi logo-text"/>
       </Link>
