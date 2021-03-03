@@ -1,8 +1,8 @@
 import React from 'react';
 import {Header, PrivateRoute} from './components';
-import {AuthorizationContecxt} from './components/AuthorizationContecxt';
 import {MapPage, ProfilePage, LoginPage} from './pages';
 import {Switch, Route} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -13,18 +13,16 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
-  const {isLoggedIn, logout} = React.useContext(AuthorizationContecxt);
+  const isLoggedIn = useSelector(({authReducer}) => authReducer.isLoggedIn);
 
   return (
     <>
-      <Header onClickLogout={logout} />
       <main className={classes.main}>
         <Switch>
+          {isLoggedIn && <Header />}
           <PrivateRoute auth={isLoggedIn} exact path="/" component={() => <MapPage />} />
-
           <PrivateRoute auth={isLoggedIn} path="/ProfilePage" component={() => <ProfilePage />} />
-
-          <Route path="/LoginPage" component={() => <LoginPage />}  />
+          <Route auth={isLoggedIn} path="/LoginPage" component={() => <LoginPage />}  />
         </Switch>
       </main>
     </>

@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {FormContainer} from './FormContainer';
 import {Form} from './Form';
 import {SubmitButton} from './SubmitButton';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {makeStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
+import {logIn} from '../redux/actions/actions';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -20,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormLogin = ({onSignUp, onSubmit}) => {
+const FormLogin = ({onSignUp}) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const {login} = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -34,10 +35,13 @@ const FormLogin = ({onSignUp, onSubmit}) => {
     setPassword(evt.target.value);
   }
 
+  const loginHandler = useCallback((email, password) => {
+    dispatch(logIn(email, password));
+  }, []);
+
   const submitFormHandler = (evt) => {
     evt.preventDefault();
-    login(email, password);
-    onSubmit();
+    loginHandler(email, password);
   }
 
   const forgotPasswordHandler = (evt) => {
@@ -91,13 +95,11 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 };
 
 FormLogin.propTypes = {
-  onSignUp: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSignUp: PropTypes.func.isRequired
 };
 
 FormLogin.defaultProps = {
-  onSignUp: () => {},
-  onSubmit: () => {}
+  onSignUp: () => {}
 };
 
 export default FormLogin;

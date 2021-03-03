@@ -1,12 +1,10 @@
 import React from 'react';
 import {FormLogIn, FormSignUp} from '../components';
 import {Redirect} from 'react-router-dom';
-import {AuthorizationContecxt} from '../components/AuthorizationContecxt';
 import PropTypes from 'prop-types';
 
-const LoginPage = () => {
+const LoginPage = ({auth}) => {
   const [activeForm, setActiveForm] = React.useState(true);
-  const {isLoggedIn, logout} = React.useContext(AuthorizationContecxt);
 
   const onToggleForm = () => {
     setActiveForm((state) => !state);
@@ -15,19 +13,19 @@ const LoginPage = () => {
   return (
     <div>
       { 
-        isLoggedIn ? <Redirect to="/" /> :
-        (activeForm ? <FormLogIn onSignUp={onToggleForm} onSubmit={logout} /> : <FormSignUp onLogIn={onToggleForm} onSubmit={logout} />)
+        auth ? <Redirect to="/" /> :
+        (activeForm ? <FormLogIn onSignUp={onToggleForm} /> : <FormSignUp onLogIn={onToggleForm} />)
       }
     </div>
   );
 };
 
 LoginPage.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  auth: PropTypes.bool.isRequired
 };
 
 LoginPage.defaultProps = {
-  onSubmit: () => {}
+  auth: false
 };
 
 export default LoginPage;

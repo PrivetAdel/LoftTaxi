@@ -1,11 +1,11 @@
-import React from 'react';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
+import React, {useCallback} from 'react';
 import {AppBar, MenuList, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import logoPic from '../assets/logo-pic.svg';
 import logoText from '../assets/logo-text.svg';
-import PropTypes from 'prop-types';
 import {Link, NavLink} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {logOut} from '../redux/actions/actions';
 
 const useStyles = makeStyles({
   root: {
@@ -28,14 +28,16 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({onClickLogout}) => {
-  const {isLoggedIn} = React.useContext(AuthorizationContecxt);
+const Header = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const logoutHandler = useCallback(() => {
+    dispatch(logOut());
+  }, []);
 
   return (
-    isLoggedIn ?
     <AppBar className={classes.root} >
-
       <Link className={classes.logo} to="/" exact>
         <img width="61" height="61" src={logoPic} alt="loft-taxi logo-pic"/>
         <img width="196" height="32" src={logoText} alt="loft-taxi logo-text"/>
@@ -51,21 +53,12 @@ const Header = ({onClickLogout}) => {
         </MenuItem>
 
         <MenuItem >
-          <NavLink onClick={onClickLogout} to="/LoginPage" >Выйти</NavLink>
+          <NavLink onClick={logoutHandler} to="/LoginPage" >Выйти</NavLink>
         </MenuItem>
         
       </MenuList>
-    </AppBar> 
-    : null
+    </AppBar>
   );
-};
-
-Header.propTypes = {
-  onClickLogout: PropTypes.func
-};
-
-Header.defaultProps = {
-  onClickLogout: () => {}
 };
 
 export default Header;

@@ -1,6 +1,7 @@
+import {GET_AUTH, LOG_OUT} from '../actions/actions';
+
 const initialState = {
   isLoggedIn: false,
-  isLoaded: false,
   error: null
 };
 
@@ -10,8 +11,13 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: action.payload,
-        isLoaded: true
       };
+
+    case LOG_OUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+        };
     
     default: 
       return state
