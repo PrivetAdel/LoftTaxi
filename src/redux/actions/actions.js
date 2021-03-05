@@ -1,6 +1,3 @@
-// const GET_AUTH_REQUEST = 'GET_AUTH_REQUEST';
-// const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
-// const GET_AUTH_FAILURE = 'GET_AUTH_FAILURE';
 export const GET_AUTH = 'GET_AUTH';
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
@@ -23,7 +20,12 @@ export const logOut = () => ({
   type: LOG_OUT,
 });
 
-export const SignUp = (userObj) => ({
+export const SignUp = (email, password, name, surname) => ({
   type: SIGN_UP,
-  payload: userObj 
+  payload: {
+    email, 
+    password, 
+    name, 
+    surname
+  } 
 });

@@ -1,7 +1,5 @@
 import * as axios from 'axios';
-import {
-  getAuth
-} from './actions/actions';
+import {getAuth} from './actions/actions';
 
 const instans = axios.create({
   baseURL: 'https://loft-taxi.glitch.me/',

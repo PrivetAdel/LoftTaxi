@@ -1,21 +1,24 @@
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
+import {Provider} from 'react-redux';
 import FormLogin from './FormLogin';
 
 describe("FormLogin", () => {
   const props = {
-    onSignUp: jest.fn(), 
-    onSubmit: jest.fn()
+    onSignUp: jest.fn()
   };
 
-  let isLoggedIn = false;
-
   it("change value input 'email'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByLabelText} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+      <Provider store={mockStore}>
         <FormLogin {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     const inputEmail = getByLabelText(/Email/i);
@@ -24,10 +27,16 @@ describe("FormLogin", () => {
   });
 
   it("change value input 'password'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByLabelText} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+      <Provider store={mockStore}>
         <FormLogin {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     const inputPassword = getByLabelText(/Пароль/i);
@@ -36,10 +45,16 @@ describe("FormLogin", () => {
   });
 
   it("click on link 'Регистрация'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByText} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+      <Provider store={mockStore}>
         <FormLogin {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     const link = getByText(/Регистрация/i);
@@ -48,15 +63,21 @@ describe("FormLogin", () => {
   });
 
   it("submit form", () => {
-    const login = jest.fn();
+    const logIn = jest.fn();
+
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {logIn('test@test.com', '123123')},
+    };
 
     const {getByTestId} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn, login}}>
+      <Provider store={mockStore}>
         <FormLogin {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     fireEvent.submit(getByTestId('form'));
-    expect(login).toHaveBeenCalled();
+    expect(logIn).toHaveBeenCalled();
   });
 });

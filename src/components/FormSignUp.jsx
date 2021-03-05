@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {FormContainer} from './FormContainer';
 import {Form} from './Form';
 import {SubmitButton} from './SubmitButton';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {makeStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
+import {logIn} from '../redux/actions/actions';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -17,30 +18,33 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FormSignUp = ({onLogIn, onSubmit}) => {
+const FormSignUp = ({onLogIn}) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const {login} = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const emailChangeHandle = (evt) => {
     setEmail(evt.target.value);
-  }
+  };
 
   const userNameChangeHandle = (evt) => {
     setUserName(evt.target.value);
-  }
+  };
 
   const passwordChangeHandle = (evt) => {
     setPassword(evt.target.value);
-  }
+  };
+
+  const loginHandler = useCallback((email, password) => {
+    dispatch(logIn(email, password));
+  }, []);
 
   const signUpHandler = (evt) => {
     evt.preventDefault();
-    login(email, password);
-    onSubmit();
-  }
+    loginHandler(email, password);
+  };
 
   return (
     <FormContainer>
@@ -93,13 +97,11 @@ const FormSignUp = ({onLogIn, onSubmit}) => {
 };
 
 FormSignUp.propTypes = {
-  onLogIn: PropTypes.func.isRequired, 
-  onSubmit: PropTypes.func.isRequired
+  onLogIn: PropTypes.func.isRequired
 };
 
 FormSignUp.defaultProps = {
-  onLogIn: () => {},
-  onSubmit: () => {}
+  onLogIn: () => {}
 };
 
 export default FormSignUp;

@@ -1,34 +1,28 @@
 import React from 'react';
 import {render} from '@testing-library/react';
+import {Provider} from 'react-redux';
+import {Router} from 'react-router-dom';
+import {createMemoryHistory} from 'history';
 import Header from './Header';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
 
 describe("Header", () => {
-  const props = {
-    onClickPage: jest.fn(), 
-    onClickLogout: jest.fn()
-  };
 
+  it("render Header component", () => {
+    const mockStore = {
+      getState: () => ({isLoggedIn: true}),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
 
-  it("render Header component with context", () => {
-    let isLoggedIn = true;
+    const history = createMemoryHistory();
 
     const {getByRole} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
-        <Header {...props} />
-      </AuthorizationContecxt.Provider>
+      <Provider store={mockStore}>
+        <Router history={history}>
+          <Header />
+        </Router>
+      </Provider>
     );
     expect(getByRole('menu')).toBeInTheDocument();
-  });
-
-  it("Header is not rendered", () => {
-    let isLoggedIn = false;
-
-    const {queryByRole} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
-        <Header {...props} />
-      </AuthorizationContecxt.Provider>
-    );
-    expect(queryByRole('menu')).not.toBeInTheDocument();
   });
 });
