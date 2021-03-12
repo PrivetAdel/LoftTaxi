@@ -1,17 +1,23 @@
-import * as axios from 'axios';
-import {getAuth} from './actions/actions';
+import {getAuth, postCard, LOG_IN, SAVE_CARD_DATA} from './actions/actions';
+import {serverAuth, saveCardData} from './api';
 
-const instans = axios.create({
-  baseURL: 'https://loft-taxi.glitch.me/',
-  responseType: 'json'
-});
+const loftMiddleware = (store) => (next) => async (action) => {
+  if (action.type === LOG_IN) {
+    const {email, password} = action.payload;
+    const success = await serverAuth(email, password);
+    if (success) {
+      store.dispatch(getAuth(success));
+    } 
+  }
 
-const loftMiddleware = store => next => action => {
-  if (action.type === 'LOG_IN') {
-    return instans.post('auth/', action.payload)
-      .then(response => store.dispatch(getAuth(response.data.success))
-    );
-  };
+  if (action.type === SAVE_CARD_DATA) {
+    const {cardName, cardNumber, expiryDate, cvc} = action.payload;
+    const token = store.isLoggedIn;
+    const success = await saveCardData(cardName, cardNumber, expiryDate, cvc, token);
+    if (success) {
+      store.dispatch(postCard(success));
+    } 
+  }
 
   return next(action);
 };

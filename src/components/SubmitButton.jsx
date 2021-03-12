@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: '70px', 
-    padding: '9px 0',
+    padding: '9px 30px',
     fontSize: '24px',
     margin: theme.spacing(6, 0, 4)
   }
@@ -20,7 +20,7 @@ export const SubmitButton = ({children}) => {
       type="submit" 
       variant="contained" 
       color="primary" 
-      className={classes.root} 
+      className={classes.root}
       fullWidth
     >
       {children}

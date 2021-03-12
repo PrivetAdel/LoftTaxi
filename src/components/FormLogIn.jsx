@@ -50,7 +50,7 @@ const FormLogin = ({onSignUp}) => {
   }
 
   return (
-    <FormContainer>
+    <FormContainer maxWidth="sm" padding="8, 12" >
       <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Войти
       </Typography>
