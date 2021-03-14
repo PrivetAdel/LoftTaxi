@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme, padding) => ({
     alignItems: 'center',
     boxShadow: '0px 0px 40px rgba(0, 0, 0, 0.1)',
     borderRadius: '20px',
-    padding: theme.spacing(padding)
+    padding: theme.spacing(padding),
+    backgroundColor: '#fff'
   }
 }));
 

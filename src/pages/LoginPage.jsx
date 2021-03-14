@@ -14,7 +14,7 @@ const LoginPage = () => {
   return (
     <div>
       { 
-        isLoggedIn ? <Redirect to="/" /> :
+        isLoggedIn ? <Redirect to="/main" /> :
         (activeForm ? <FormLogIn onSignUp={onToggleForm} /> : <FormSignUp onLogIn={onToggleForm} />)
       }
     </div>

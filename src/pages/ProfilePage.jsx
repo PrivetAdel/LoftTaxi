@@ -7,9 +7,11 @@ const ProfilePage = () => {
   const isCardData = useSelector(({authReducer}) => authReducer.isCardData);
   
   const submitCardData = () => {
-    if (isCardData) {
-      setActiveForm((state) => !state);
+    if (!isCardData) {
+      return;
     }
+
+    setActiveForm((state) => !state);
   };
 
   return (

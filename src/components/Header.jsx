@@ -38,18 +38,18 @@ const Header = () => {
 
   return (
     <AppBar className={classes.root} >
-      <Link className={classes.logo} to="/" >
+      <Link className={classes.logo} to="/main" >
         <img width="61" height="61" src={logoPic} alt="loft-taxi logo-pic"/>
         <img width="196" height="32" src={logoText} alt="loft-taxi logo-text"/>
       </Link>
 
       <MenuList className={classes.nav}>
         <MenuItem >
-          <NavLink to="/" >Карта</NavLink>
+          <NavLink to="/main" >Карта</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <NavLink to="/ProfilePage" >Профиль</NavLink>
+          <NavLink to="/main/ProfilePage" >Профиль</NavLink>
         </MenuItem>
 
         <MenuItem >

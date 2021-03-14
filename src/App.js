@@ -21,8 +21,8 @@ const App = () => {
         {isLoggedIn && <Header />}
 
         <Switch>
-          <PrivateRoute auth={isLoggedIn} exact path="/" component={MapPage} />
-          <PrivateRoute auth={isLoggedIn} path="/ProfilePage" component={ProfilePage} />
+          <PrivateRoute auth={isLoggedIn} path="/main" component={MapPage} />
+          <PrivateRoute auth={isLoggedIn} path="/main/ProfilePage" component={ProfilePage} />
           <Route path="/LoginPage" component={LoginPage}  />
         </Switch>
       </main>

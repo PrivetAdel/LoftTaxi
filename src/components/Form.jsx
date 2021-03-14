@@ -27,8 +27,4 @@ Form.propTypes = {
   children: PropTypes.node.isRequired,
   onSubmitHandler: PropTypes.func.isRequired
 };
-
-Form.defaultProps = {
-  onSubmitHandler: () => {}
-};
  
