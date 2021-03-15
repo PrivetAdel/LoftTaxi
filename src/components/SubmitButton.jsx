@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const SubmitButton = ({children}) => {
+const SubmitButton = ({children}) => {
   const classes = useStyles();
 
   return (
@@ -31,3 +31,5 @@ export const SubmitButton = ({children}) => {
 SubmitButton.propTypes = {
   children: PropTypes.node.isRequired
 };
+
+export default SubmitButton;

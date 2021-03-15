@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header, PrivateRoute} from './components';
-import {MapPage, ProfilePage, LoginPage} from './pages';
-import {Switch, Route} from 'react-router-dom';
+import {MapPage, LoginPage} from './pages';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -16,17 +16,17 @@ const App = () => {
   const isLoggedIn = useSelector(({authReducer}) => authReducer.isLoggedIn);
 
   return (
-    <>
-      <main className={classes.main}>
-        {isLoggedIn && <Header />}
+    <main className={classes.main}>
+      {isLoggedIn && <Header />}
 
-        <Switch>
-          <PrivateRoute auth={isLoggedIn} path="/main" component={MapPage} />
-          <PrivateRoute auth={isLoggedIn} path="/main/ProfilePage" component={ProfilePage} />
-          <Route path="/LoginPage" component={LoginPage}  />
-        </Switch>
-      </main>
-    </>
+      <Switch>
+        <PrivateRoute path="/main" auth={isLoggedIn} component={MapPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route exact path="/">
+          <Redirect to="/main" />
+        </Route>
+      </Switch>
+    </main>
   );
 }
 

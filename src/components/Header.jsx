@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
 import {AppBar, MenuList, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import logoPic from '../assets/logo-pic.svg';
-import logoText from '../assets/logo-text.svg';
 import {Link, NavLink} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-import {logOut} from '../redux/actions/actions';
+import {logOut} from '../redux/actions';
+import logoPic from '../assets/logo-pic.svg';
+import logoText from '../assets/logo-text.svg';
 
 const useStyles = makeStyles({
   root: {
@@ -49,11 +49,11 @@ const Header = () => {
         </MenuItem>
 
         <MenuItem >
-          <NavLink to="/main/ProfilePage" >Профиль</NavLink>
+          <NavLink to="/main/profile" >Профиль</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <NavLink onClick={logoutHandler} to="/LoginPage" >Выйти</NavLink>
+          <NavLink onClick={logoutHandler} to="/login" >Выйти</NavLink>
         </MenuItem>
         
       </MenuList>

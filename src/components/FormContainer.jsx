@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme, padding) => ({
   }
 }));
 
-export const FormContainer = ({children, maxWidth, padding}) => {
+const FormContainer = ({children, maxWidth, padding}) => {
   const classes = useStyles(padding);
 
   return (
@@ -33,3 +33,5 @@ export const FormContainer = ({children, maxWidth, padding}) => {
 FormContainer.propTypes = {
   children: PropTypes.node.isRequired
 };
+
+export default FormContainer;

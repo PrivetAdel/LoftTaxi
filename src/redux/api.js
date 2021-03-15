@@ -15,3 +15,8 @@ export const saveCardData = (name, cardNumber, expiryDate, cvc) => {
     .then(response => (response.data.success));
 };
 
+export const getCardData = () => {
+  const token = localStorage.getItem('token');
+  return instans.get(`card?token=${token}`)
+    .then(response => response.data);
+};

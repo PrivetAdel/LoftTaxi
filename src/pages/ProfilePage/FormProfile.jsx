@@ -1,14 +1,12 @@
 import React, {useCallback} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Typography, InputLabel, Input, Grid} from '@material-ui/core';
-import {FormContainer} from './FormContainer';
-import {SubmitButton} from './SubmitButton';
-import {Form} from './Form';
+import {FormContainer, Form, SubmitButton} from '../../components';
 import {useDispatch} from 'react-redux';
-import {saveCardData} from '../redux/actions/actions';
-import logoPic from '../assets/logo-pic.svg';
-import chip from '../assets/chip.svg';
-import masterCard from '../assets/master-card-logo.svg';
+import {saveCardData} from '../../redux/actions';
+import logoPic from '../../assets/logo-pic.svg';
+import chip from '../../assets/chip.svg';
+import masterCard from '../../assets/master-card-logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FormProfile = ({submitCardData}) => {
+const FormProfile = ({cardData}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [cardName, setCardName] = React.useState('');
-  const [cardNumber, setCardNumber] = React.useState('');
-  const [expiryDate, setExpiryDate] = React.useState('');
-  const [cvc, setCvc] = React.useState('');
+  const [cardName, setCardName] = React.useState(cardData.cardName);
+  const [cardNumber, setCardNumber] = React.useState(cardData.cardNumber);
+  const [expiryDate, setExpiryDate] = React.useState(cardData.expiryDate);
+  const [cvc, setCvc] = React.useState(cardData.cvc);
 
   const nameChangeHandle = (evt) => {
     setCardName(evt.target.value);
@@ -57,7 +55,6 @@ const FormProfile = ({submitCardData}) => {
   const submitHandler = (evt) => {
     evt.preventDefault();
     saveCardDataHandler(cardName, cardNumber, expiryDate, cvc);
-    submitCardData();
   };
 
   return (

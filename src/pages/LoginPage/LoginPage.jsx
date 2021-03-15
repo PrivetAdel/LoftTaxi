@@ -1,5 +1,6 @@
 import React from 'react';
-import {FormLogIn, FormSignUp} from '../components';
+import FormLogIn from './FormLogIn';
+import FormSignUp from './FormSignUp';
 import {Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 

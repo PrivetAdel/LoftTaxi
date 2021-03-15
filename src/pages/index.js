@@ -1,3 +1,3 @@
-export {default as ProfilePage} from './ProfilePage';
-export {default as MapPage} from './MapPage';
-export {default as LoginPage} from './LoginPage';
+export {default as ProfilePage} from './ProfilePage/ProfilePage';
+export {default as MapPage} from './MapPage/MapPage';
+export {default as LoginPage} from './LoginPage/LoginPage';

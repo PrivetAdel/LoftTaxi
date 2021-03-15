@@ -1,12 +1,10 @@
 import React, {useCallback} from 'react';
 import {Typography, InputLabel, Input, Link} from '@material-ui/core';
-import {FormContainer} from './FormContainer';
-import {Form} from './Form';
-import {SubmitButton} from './SubmitButton';
 import {makeStyles} from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
-import {logIn} from '../redux/actions/actions';
+import {logIn} from '../../redux/actions';
+import {FormContainer, Form, SubmitButton} from '../../components';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   title: {

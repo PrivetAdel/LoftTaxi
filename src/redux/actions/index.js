@@ -4,6 +4,7 @@ export const LOG_OUT = 'LOG_OUT';
 export const SIGN_UP = 'SIGN_UP';
 export const SAVE_CARD_DATA = 'SAVE_CARD_DATA';
 export const POST_CARD = 'POST_CARD';
+export const GET_CARD = 'GET_CARD'
 
 export const getAuth = (isLoggedIn) => ({
   type: GET_AUTH,
@@ -37,12 +38,16 @@ export const postCard = (isCardData) => ({
   payload: isCardData 
 }); 
 
-export const saveCardData = (name, cardNumber, expiryDate, cvc) => ({
+export const saveCardData = (cardName, cardNumber, expiryDate, cvc) => ({
   type: SAVE_CARD_DATA,
   payload: {
-    name, 
+    cardName, 
     cardNumber, 
     expiryDate, 
     cvc
   }
-})
+});
+
+export const getCard = () => ({
+  type: GET_CARD
+});
