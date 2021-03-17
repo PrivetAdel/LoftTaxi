@@ -3,26 +3,26 @@ import {render} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
-import Header from './Header';
+import FormProfileSave from './FormProfileSave';
 
-describe("Header", () => {
-
-  it("render Header component", () => {
+describe("FormProfileSave", () => {
+  it("render FormProfileSave component", () => {
     const mockStore = {
-      getState: () => ({isLoggedIn: true}),
+      getState: () => {},
       subscribe: () => {},
       dispatch: () => {},
     };
 
     const history = createMemoryHistory();
 
-    const {getByRole} = render(
+    const {getByText} = render(
       <Provider store={mockStore}>
         <Router history={history}>
-          <Header />
+          <FormProfileSave />
         </Router>
       </Provider>
+    
     );
-    expect(getByRole('menu')).toBeInTheDocument();
-  });
+    expect(getByText('Профиль')).toBeInTheDocument();
+  })
 });

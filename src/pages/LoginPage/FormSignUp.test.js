@@ -1,21 +1,24 @@
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
+import {Provider} from 'react-redux';
 import FormSignUp from './FormSignUp';
 
 describe("FormSignUp", () => {
   const props = {
-    onLogIn: jest.fn(), 
-    onSubmit: jest.fn()
+    onLogIn: jest.fn()
   };
 
-  let isLoggedIn = false;
-
   it("change value input 'email'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByLabelText} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+      <Provider store={mockStore}>
         <FormSignUp {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     const inputEmail = getByLabelText(/Email/i);
@@ -24,10 +27,16 @@ describe("FormSignUp", () => {
   });
 
   it("change value input 'name'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByLabelText} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+      <Provider store={mockStore}>
         <FormSignUp {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     const inputName = getByLabelText(/Как вас зовут/i);
@@ -36,11 +45,17 @@ describe("FormSignUp", () => {
   });
 
   it("change value input 'password'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByLabelText} = render(
-    <AuthorizationContecxt.Provider value={{isLoggedIn}}>
-      <FormSignUp {...props} />
-    </AuthorizationContecxt.Provider>
-  );
+      <Provider store={mockStore}>
+        <FormSignUp {...props} />
+      </Provider>
+    );
 
     const inputPassword = getByLabelText(/Пароль/i);
     fireEvent.change(inputPassword, {target: {value: '123123'}});
@@ -48,10 +63,16 @@ describe("FormSignUp", () => {
   });
 
   it("click on link 'Войти'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const {getByText} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn}}>
+      <Provider store={mockStore}>
         <FormSignUp {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     const link = getByText(/Войти/i);
@@ -60,15 +81,21 @@ describe("FormSignUp", () => {
   });
 
   it("submit form", () => {
-    const login = jest.fn();
+    const logIn = jest.fn();
+
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {logIn('test@test.com', '123123')},
+    };
 
     const {getByTestId} = render(
-      <AuthorizationContecxt.Provider value={{isLoggedIn, login}}>
+      <Provider store={mockStore}>
         <FormSignUp {...props} />
-      </AuthorizationContecxt.Provider>
+      </Provider>
     );
 
     fireEvent.submit(getByTestId('form'));
-    expect(login).toHaveBeenCalled();
+    expect(logIn).toHaveBeenCalled();
   });
 });

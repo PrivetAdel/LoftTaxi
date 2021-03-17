@@ -1,19 +1,25 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import {render} from '@testing-library/react';
+import {Router} from 'react-router-dom';
+import {createMemoryHistory} from 'history';
+import {Provider} from 'react-redux';
 import App from './App';
-import {AuthorizationContecxt} from './components/AuthorizationContecxt';
 
 test("render App component", () => {
-  const value = {
-    isLoggedIn: false, 
-    login: jest.fn(),
-    logout: jest.fn()
+  const mockStore = {
+    getState: () => ({authReducer: {isLoggedIn: false}}),
+    subscribe: () => {},
+    dispatch: () => {},
   };
 
+  const history = createMemoryHistory();
+
   const {getByTestId} = render(
-    <AuthorizationContecxt.Provider value={{...value}}>
-      <App />
-    </AuthorizationContecxt.Provider>
+    <Provider store={mockStore}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
   );
 
   expect(getByTestId('formTitle')).toBeInTheDocument();

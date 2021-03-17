@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Typography, InputLabel, Input, Link} from '@material-ui/core';
-import {FormContainer} from './FormContainer';
-import {Form} from './Form';
-import {SubmitButton} from './SubmitButton';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
 import {makeStyles} from '@material-ui/core/styles';
+import {useDispatch} from 'react-redux';
+import {FormContainer, Form, SubmitButton} from '../../components';
+import {logIn} from '../../redux/actions';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormLogin = ({onSignUp, onSubmit}) => {
+const FormLogin = ({onSignUp}) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const {login} = React.useContext(AuthorizationContecxt);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -34,10 +33,13 @@ const FormLogin = ({onSignUp, onSubmit}) => {
     setPassword(evt.target.value);
   }
 
+  const loginHandler = useCallback((email, password) => {
+    dispatch(logIn(email, password));
+  }, []);
+
   const submitFormHandler = (evt) => {
     evt.preventDefault();
-    login(email, password);
-    onSubmit();
+    loginHandler(email, password);
   }
 
   const forgotPasswordHandler = (evt) => {
@@ -46,7 +48,7 @@ const FormLogin = ({onSignUp, onSubmit}) => {
   }
 
   return (
-    <FormContainer>
+    <FormContainer maxWidth="sm" padding="8, 12" >
       <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Войти
       </Typography>
@@ -55,7 +57,7 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 
         <InputLabel htmlFor="email" className={classes.label} >Email</InputLabel>
         <Input
-          type="text"
+          type="email"
           id="email"
           value={email}
           placeholder="mail@mail.ru"
@@ -65,7 +67,7 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 
         <InputLabel htmlFor="password" className={classes.label} >Пароль</InputLabel>
         <Input
-          type="text"
+          type="password"
           id="password"
           value={password}
           placeholder="*************"
@@ -91,13 +93,11 @@ const FormLogin = ({onSignUp, onSubmit}) => {
 };
 
 FormLogin.propTypes = {
-  onSignUp: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSignUp: PropTypes.func.isRequired
 };
 
 FormLogin.defaultProps = {
-  onSignUp: () => {},
-  onSubmit: () => {}
+  onSignUp: () => {}
 };
 
 export default FormLogin;

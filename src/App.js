@@ -1,7 +1,8 @@
 import React from 'react';
-import {Header} from './components';
-import {AuthorizationContecxt} from './components/AuthorizationContecxt';
-import {MapPage, ProfilePage, LoginPage} from './pages';
+import {Header, PrivateRoute} from './components';
+import {MapPage, LoginPage} from './pages';
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -12,38 +13,20 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
-  const [activePage, setActivePage] = React.useState('MapPage');
-  const {isLoggedIn, login, logout} = React.useContext(AuthorizationContecxt);
-  
-  const changeActivePageHandler = (evt) => {
-    setActivePage(evt.target.name);
-  }
-
-  const onSubmitHandler = () => {
-    setActivePage('MapPage');
-    login();
-  }
-
-  const getPage = () => {
-    switch (activePage) {
-      case 'ProfilePage':
-        return <ProfilePage />;
-      
-      case 'LoginPage':
-        return <LoginPage onSubmit={onSubmitHandler} />;
-
-      default:
-        return <MapPage />;
-    }
-  }
+  const isLoggedIn = useSelector(({authReducer}) => authReducer.isLoggedIn);
 
   return (
-    <>
-      <Header onClickPage={changeActivePageHandler} onClickLogout={logout} />
-      <main className={classes.main}>
-        {isLoggedIn ? getPage() : <LoginPage onSubmit={onSubmitHandler} />}
-      </main>
-    </>
+    <main className={classes.main}>
+      {isLoggedIn && <Header />}
+
+      <Switch>
+        <PrivateRoute path="/main" auth={isLoggedIn} component={MapPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route exact path="/">
+          <Redirect to="/main" />
+        </Route>
+      </Switch>
+    </main>
   );
 }
 

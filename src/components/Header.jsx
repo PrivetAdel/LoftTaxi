@@ -1,10 +1,11 @@
-import React from 'react';
-import {AuthorizationContecxt} from './AuthorizationContecxt';
-import {AppBar, MenuList, Link, MenuItem} from '@material-ui/core';
+import React, {useCallback} from 'react';
+import {AppBar, MenuList, MenuItem} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import {Link, NavLink} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {logOut} from '../redux/actions';
 import logoPic from '../assets/logo-pic.svg';
 import logoText from '../assets/logo-text.svg';
-import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   root: {
@@ -27,52 +28,37 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({onClickPage, onClickLogout}) => {
-  const {isLoggedIn} = React.useContext(AuthorizationContecxt);
-  const logoutBatton = React.useRef(null);
+const Header = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const logoutHandler = () => {
-    onClickPage(logoutBatton.current);
-    onClickLogout();
-  }
+  const logoutHandler = useCallback(() => {
+    dispatch(logOut());
+  }, []);
 
   return (
-    isLoggedIn ?
     <AppBar className={classes.root} >
-
-      <Link className={classes.logo} href="#">
+      <Link className={classes.logo} to="/main" >
         <img width="61" height="61" src={logoPic} alt="loft-taxi logo-pic"/>
         <img width="196" height="32" src={logoText} alt="loft-taxi logo-text"/>
       </Link>
 
       <MenuList className={classes.nav}>
         <MenuItem >
-          <Link onClick={onClickPage} name="MapPage" href="#">Карта</Link>
+          <NavLink to="/main" >Карта</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <Link onClick={onClickPage} name="ProfilePage" href="#">Профиль</Link>
+          <NavLink to="/main/profile" >Профиль</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <Link ref={logoutBatton} onClick={logoutHandler} name="LoginPage" href="#">Выйти</Link>
+          <NavLink onClick={logoutHandler} to="/login" >Выйти</NavLink>
         </MenuItem>
         
       </MenuList>
-    </AppBar> 
-    : null
+    </AppBar>
   );
-};
-
-Header.propTypes = {
-  onClickPage: PropTypes.func.isRequired,
-  onClickLogout: PropTypes.func.isRequired
-};
-
-Header.defaultProps = {
-  onClickPage: () => {},
-  onClickLogout: () => {}
 };
 
 export default Header;

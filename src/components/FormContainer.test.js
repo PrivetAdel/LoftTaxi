@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import {FormContainer} from './FormContainer';
+import FormContainer from './FormContainer';
 
 describe("FormContainer", () => {
   const props = {

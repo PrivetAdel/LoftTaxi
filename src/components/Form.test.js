@@ -1,16 +1,16 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import {Form} from './Form';
+import Form from './Form';
 
 describe("Form", () => {
   const props = {
     children: `${<input />}`, 
-    onSubmitHandler: jest.fn,
+    onSubmitHandler: jest.fn(),
   };
 
   it("render Form component", () => {
     const {getByTestId} = render(
-      <Form>{props.children}</Form>
+      <Form onSubmit={props.onSubmitHandler}>{props.children}</Form>
     );
     expect(getByTestId('form')).toBeInTheDocument();
   });

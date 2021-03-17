@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const Form = ({children, onSubmitHandler}) => {
+const Form = ({children, onSubmitHandler}) => {
   const classes = useStyles();
 
   return (
@@ -28,7 +28,5 @@ Form.propTypes = {
   onSubmitHandler: PropTypes.func.isRequired
 };
 
-Form.defaultProps = {
-  onSubmitHandler: () => {}
-};
+export default Form;
  
