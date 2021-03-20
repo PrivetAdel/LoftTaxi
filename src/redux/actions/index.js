@@ -4,7 +4,10 @@ export const LOG_OUT = 'LOG_OUT';
 export const SIGN_UP = 'SIGN_UP';
 export const SAVE_CARD_DATA = 'SAVE_CARD_DATA';
 export const POST_CARD = 'POST_CARD';
-export const GET_CARD = 'GET_CARD'
+export const GET_CARD = 'GET_CARD';
+export const GET_ADDRESS_LIST = 'GET_ADDRESS_LIST';
+export const ADD_ADDRESSES = 'ADD_ADDRESSES';
+export const BUILD_A_ROUTE= 'BUILD_A_ROUTE'
 
 export const getAuth = (isLoggedIn) => ({
   type: GET_AUTH,
@@ -51,3 +54,21 @@ export const saveCardData = (cardName, cardNumber, expiryDate, cvc) => ({
 export const getCard = () => ({
   type: GET_CARD
 });
+
+export const getAddresses = (addresses) => ({
+  type: GET_ADDRESS_LIST,
+  payload: addresses
+});
+
+export const addAddresses = (address1, address2) => ({
+  type: ADD_ADDRESSES,
+  payload: {
+    address1, 
+    address2
+  }
+});
+
+export const buildARoute = (routePoints) => ({
+  type: BUILD_A_ROUTE,
+  payload: routePoints
+})

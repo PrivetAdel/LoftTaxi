@@ -39,9 +39,27 @@ describe("FormSignUp", () => {
       </Provider>
     );
 
-    const inputName = getByLabelText(/Как вас зовут/i);
+    const inputName = getByLabelText(/Имя/i);
     fireEvent.change(inputName, {target: {value: 'Name'}});
     expect(inputName.value).toBe('Name');
+  });
+
+  it("change value input 'surname'", () => {
+    const mockStore = {
+      getState: () => {},
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const {getByLabelText} = render(
+      <Provider store={mockStore}>
+        <FormSignUp {...props} />
+      </Provider>
+    );
+
+    const inputSurname = getByLabelText(/Фамилия/i);
+    fireEvent.change(inputSurname, {target: {value: 'Surname'}});
+    expect(inputSurname.value).toBe('Surname');
   });
 
   it("change value input 'password'", () => {

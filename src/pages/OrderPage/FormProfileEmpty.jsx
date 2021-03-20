@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Typography} from '@material-ui/core';
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {FormContainer} from '../../components';
 import {loftTaxiTheme} from '../../loftTaxiTheme';
 
@@ -16,7 +16,6 @@ const useStyles = makeStyles((loftTaxiTheme) => ({
 }));
 
 const FormProfileEmpty = () => {
-  const {path} = useRouteMatch();
   const classes = useStyles(loftTaxiTheme);
 
   return (
@@ -24,7 +23,7 @@ const FormProfileEmpty = () => {
       <Typography align="center" variant="h5">
         Для заказа такси заполните платёжные данные.
       </Typography>
-      <Link to={`${path}/profile`} className={classes.link}>Перейти в профиль</Link>
+      <Link to="/main/profile" className={classes.link}>Перейти в профиль</Link>
     </FormContainer>
   );
 };

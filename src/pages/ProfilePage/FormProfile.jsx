@@ -32,19 +32,19 @@ const FormProfile = ({cardData}) => {
   const [expiryDate, setExpiryDate] = React.useState(cardData.expiryDate);
   const [cvc, setCvc] = React.useState(cardData.cvc);
 
-  const nameChangeHandle = (evt) => {
+  const nameChangeHandler = (evt) => {
     setCardName(evt.target.value);
   };
 
-  const cardNumberChangeHandle = (evt) => {
+  const cardNumberChangeHandler = (evt) => {
     setCardNumber(evt.target.value);
   };
   
-  const dateChangeHandle = (evt) => {
+  const dateChangeHandler = (evt) => {
     setExpiryDate(evt.target.value);
   };
 
-  const cvcChangeHandle = (evt) => {
+  const cvcChangeHandler = (evt) => {
     setCvc(evt.target.value);
   };
 
@@ -75,7 +75,7 @@ const FormProfile = ({cardData}) => {
                 id="name"
                 placeholder="Loft"
                 value={cardName}
-                onChange={nameChangeHandle}
+                onChange={nameChangeHandler}
                 fullWidth
                 required />
             </Grid>
@@ -87,7 +87,7 @@ const FormProfile = ({cardData}) => {
                 id="cardNumber"
                 value={cardNumber}
                 placeholder="0000 0000 0000 0000"
-                onChange={cardNumberChangeHandle}
+                onChange={cardNumberChangeHandler}
                 fullWidth
                 required />
             </Grid>
@@ -100,7 +100,7 @@ const FormProfile = ({cardData}) => {
                   id="date"
                   value={expiryDate}
                   placeholder="00/00"
-                  onChange={dateChangeHandle}
+                  onChange={dateChangeHandler}
                   required />
               </Grid>
               
@@ -111,7 +111,7 @@ const FormProfile = ({cardData}) => {
                   id="cvc"
                   value={cvc}
                   placeholder="000"
-                  onChange={cvcChangeHandle}
+                  onChange={cvcChangeHandler}
                   required />
               </Grid>
             </Grid>

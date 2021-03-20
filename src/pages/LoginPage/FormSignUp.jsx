@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
-import {logIn} from '../../redux/actions';
+import {signUp} from '../../redux/actions';
 import {FormContainer, Form, SubmitButton} from '../../components';
 import PropTypes from 'prop-types';
 
@@ -20,28 +20,33 @@ const FormSignUp = ({onLogIn}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [email, setEmail] = React.useState('');
-  const [userName, setUserName] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [surname, setSurname] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const emailChangeHandle = (evt) => {
     setEmail(evt.target.value);
   };
 
-  const userNameChangeHandle = (evt) => {
-    setUserName(evt.target.value);
+  const nameChangeHandle = (evt) => {
+    setName(evt.target.value);
   };
+
+  const surnameChangeHandle = (evt) => {
+    setSurname(evt.target.value);
+  }
 
   const passwordChangeHandle = (evt) => {
     setPassword(evt.target.value);
   };
 
-  const loginHandler = useCallback((email, password) => {
-    dispatch(logIn(email, password));
+  const registrationHandler = useCallback((email, password, name, surname) => {
+    dispatch(signUp(email, password, name, surname));
   }, []);
 
   const signUpHandler = (evt) => {
     evt.preventDefault();
-    loginHandler(email, password);
+    registrationHandler(email, password, name, surname);
   };
 
   return (
@@ -61,13 +66,24 @@ const FormSignUp = ({onLogIn}) => {
           fullWidth
           required />
 
-        <InputLabel htmlFor="userName" className={classes.label} >Как вас зовут?*</InputLabel>
+        <InputLabel htmlFor="name" className={classes.label} >Имя*</InputLabel>
         <Input
           type="text"
-          id="userName"
-          value={userName}
-          placeholder="Петр Александрович"
-          onChange={userNameChangeHandle}
+          id="name"
+          value={name}
+          placeholder="Петр"
+          onChange={nameChangeHandle}
+          fullWidth
+          required />
+
+
+        <InputLabel htmlFor="surname" className={classes.label} >Фамилия*</InputLabel>
+        <Input
+          type="text"
+          id="surname"
+          value={surname}
+          placeholder="Петров"
+          onChange={surnameChangeHandle}
           fullWidth
           required />
 
