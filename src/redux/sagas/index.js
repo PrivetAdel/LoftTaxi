@@ -2,7 +2,7 @@ import {all, fork} from 'redux-saga/effects';
 import {logInSaga} from './authorizationSaga';
 import {signUpSaga} from './registrationSaga';
 import {addressListSaga} from './addressListSaga';
-// import {routeSaga} from './routeSaga';
+import {routeSaga} from './routeSaga';
 import {paymentSaga} from './paymentSaga';
 
 export default function* rootSaga() {
@@ -10,7 +10,7 @@ export default function* rootSaga() {
     fork(logInSaga),
     fork(signUpSaga),
     fork(addressListSaga),
-    // fork(routeSaga),
+    fork(routeSaga),
     fork(paymentSaga)
     ]);
 };
