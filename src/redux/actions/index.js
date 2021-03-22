@@ -7,7 +7,8 @@ export const POST_CARD = 'POST_CARD';
 export const GET_CARD = 'GET_CARD';
 export const GET_ADDRESS_LIST = 'GET_ADDRESS_LIST';
 export const ADD_ADDRESSES = 'ADD_ADDRESSES';
-export const BUILD_A_ROUTE= 'BUILD_A_ROUTE'
+export const BUILD_A_ROUTE = 'BUILD_A_ROUTE';
+export const GET_ORDER = 'GET_ORDER';
 
 export const getAuth = (isLoggedIn) => ({
   type: GET_AUTH,
@@ -71,4 +72,9 @@ export const addAddresses = (address1, address2) => ({
 export const buildARoute = (routePoints) => ({
   type: BUILD_A_ROUTE,
   payload: routePoints
-})
+});
+
+export const getOrder = (isOrdered) => ({
+  type: GET_ORDER,
+  payload: isOrdered
+});

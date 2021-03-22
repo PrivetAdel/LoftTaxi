@@ -1,4 +1,4 @@
-import {GET_ADDRESS_LIST, ADD_ADDRESSES, BUILD_A_ROUTE} from '../actions';
+import {GET_ADDRESS_LIST, ADD_ADDRESSES, BUILD_A_ROUTE, GET_ORDER} from '../actions';
 
 const initialState = {
   addresses: [],
@@ -6,7 +6,8 @@ const initialState = {
     address1: '',
     address2: ''
   },
-  routePoints: []
+  routePoints: [],
+  isOrdered: false
 };
 
 export const orderReducer = (state = initialState, action) => {
@@ -28,6 +29,12 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         routePoints: action.payload
       }
+    
+    case GET_ORDER:
+      return {
+        ...state,
+        isOrdered: action.payload
+      };
     
     default: 
       return state;

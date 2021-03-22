@@ -5,14 +5,15 @@ import {useDispatch} from 'react-redux';
 import {FormContainer, Form, SubmitButton} from '../../components';
 import {logIn} from '../../redux/actions';
 import PropTypes from 'prop-types';
+import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   title: {
     fontWeight: 700,
-    margin: theme.spacing(1, 0, 2)
+    margin: loftTaxiTheme.spacing(1, 0, 2)
   },
   label: {
-    marginTop: theme.spacing(3)
+    marginTop: loftTaxiTheme.spacing(3)
   },
   link: {
     color: '#828282'
@@ -48,7 +49,7 @@ const FormLogin = ({onSignUp}) => {
   }
 
   return (
-    <FormContainer maxWidth="sm" padding="8, 12" >
+    <FormContainer maxWidth="sm" padding="8" >
       <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Войти
       </Typography>

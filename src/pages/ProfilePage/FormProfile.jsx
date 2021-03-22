@@ -7,14 +7,15 @@ import {saveCardData} from '../../redux/actions';
 import logoPic from '../../assets/logo-pic.svg';
 import chip from '../../assets/chip.svg';
 import masterCard from '../../assets/master-card-logo.svg';
+import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   title: {
     fontWeight: 700,
-    margin: theme.spacing(1, 0, 2)
+    margin: loftTaxiTheme.spacing(1, 0, 2)
   },
   label: {
-    marginTop: theme.spacing(3)
+    marginTop: loftTaxiTheme.spacing(3)
   },
   smallGrid: {
     maxWidth: '50%'
@@ -58,7 +59,7 @@ const FormProfile = ({cardData}) => {
   };
 
   return (
-    <FormContainer maxWidth="md"  padding="5">
+    <FormContainer maxWidth="md" padding="5">
       <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Профиль
       </Typography>

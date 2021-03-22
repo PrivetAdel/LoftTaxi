@@ -2,7 +2,7 @@ import {createMuiTheme} from '@material-ui/core/styles';
 
 export const loftTaxiTheme = createMuiTheme({
   breakpoints: {
-    keys: ['xs', 'sm', 'md', 'lg', 'xl'],
+    keys: ["xs", "sm", "md", "lg", "xl"],
     values: {
       xs: 375,
       sm: 600,
@@ -21,6 +21,7 @@ export const loftTaxiTheme = createMuiTheme({
       text: "#828282"
     }
   },
+  spacing: 8,
   overrides: {
     MuiFormLabel: {
       root: {
@@ -39,7 +40,7 @@ export const loftTaxiTheme = createMuiTheme({
     MuiInputLabel: {
       root: {
         color: "#000000",
-        marginBottom: '10px'
+        marginBottom: "10px"
       }
     },
     MuiInput: {
@@ -57,7 +58,7 @@ export const loftTaxiTheme = createMuiTheme({
     },
     MuiButton: {
       root: {
-        textTransform: 'none'
+        textTransform: "none"
       },
       containedPrimary: {
         boxShadow: "none",
