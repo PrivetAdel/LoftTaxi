@@ -2,7 +2,7 @@ import {takeEvery, put, call} from 'redux-saga/effects';
 import {saveCardData, getCardData} from '../api';
 import {SAVE_CARD_DATA, GET_AUTH, getCard, postCard} from '../actions';
 
-function* postCardSaga(action) {
+export function* postCardSaga(action) {
   try {
     const {cardName, cardNumber, expiryDate, cvc} = action.payload;
     const token = localStorage.getItem('token')
@@ -13,7 +13,7 @@ function* postCardSaga(action) {
   }
 };
 
-function* getCardSaga() {
+export function* getCardSaga() {
   try {
     const token = localStorage.getItem('token')
     const response = yield call(getCardData, token);

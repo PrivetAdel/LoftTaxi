@@ -2,7 +2,7 @@ import {takeEvery, put, call} from 'redux-saga/effects';
 import {serverAuth, saveToken} from '../api';
 import {LOG_IN, getAuth} from '../actions';
 
-function* authSaga(action) {
+export function* authSaga(action) {
   try {
     const {email, password} = action.payload;
     const response = yield call(serverAuth, email, password);
