@@ -2,7 +2,7 @@ import {registrationSaga} from './registrationSaga';
 import {recordSaga} from './recordSaga';
 import {getAuth} from '../actions';
 
-jest.mock("../api", () => ({postRegister: jest.fn(() => ({email: "testEmail", password: "testPassword", name: "testName", surname: "testSurname"}))}));
+jest.mock("../api", () => ({postRegister: jest.fn(() => true)}));
 
 describe("registrationSaga", () => {
   it("auht through api", async () => {

@@ -8,7 +8,12 @@ describe("Map", () => {
     const getOrder = jest.fn();
 
     const mockStore = {
-      getState: () => {},
+      getState: () => ({
+        orderReducer: {
+          isOrdered: false, 
+          routePoints: [[30, 50], [31, 51], [32, 52]]
+        }
+      }),
       subscribe: () => {},
       dispatch: () => {getOrder(true)},
     };

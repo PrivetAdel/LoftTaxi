@@ -2,7 +2,7 @@ import {authSaga} from './authorizationSaga';
 import {recordSaga} from './recordSaga';
 import {getAuth} from '../actions';
 
-jest.mock("../api", () => ({serverAuth: jest.fn(() => ({email: "testEmail", password: "testPassword"}))}));
+jest.mock("../api", () => ({serverAuth: jest.fn(() => (true))}));
 
 describe("authorizationSaga", () => {
   it("auth through api", async () => {
@@ -13,7 +13,7 @@ describe("authorizationSaga", () => {
 
     expect(dispatched).toEqual([
       {
-        type: "GET_AUTH" 
+        type: "GET_AUTH"
       }
     ])
   })
