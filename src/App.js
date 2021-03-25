@@ -3,20 +3,12 @@ import {Header, PrivateRoute} from './components';
 import {MapPage, LoginPage} from './pages';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {makeStyles} from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-  main: {
-    marginTop: '77px'
-  }
-});
 
 const App = () => {
-  const classes = useStyles();
   const isLoggedIn = useSelector(({authReducer}) => authReducer.isLoggedIn);
 
   return (
-    <main className={classes.main}>
+    <>
       {isLoggedIn && <Header />}
 
       <Switch>
@@ -26,7 +18,7 @@ const App = () => {
           <Redirect to="/main" />
         </Route>
       </Switch>
-    </main>
+    </>
   );
 }
 

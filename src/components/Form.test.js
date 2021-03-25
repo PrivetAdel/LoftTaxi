@@ -10,7 +10,7 @@ describe("Form", () => {
 
   it("render Form component", () => {
     const {getByTestId} = render(
-      <Form onSubmit={props.onSubmitHandler}>{props.children}</Form>
+      <Form {...props}>{props.children}</Form>
     );
     expect(getByTestId('form')).toBeInTheDocument();
   });

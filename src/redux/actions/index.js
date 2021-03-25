@@ -15,26 +15,18 @@ export const getAuth = (isLoggedIn) => ({
   payload: isLoggedIn 
 });
 
-export const logIn = (email, password) => ({
+export const logIn = (formData) => ({
   type: LOG_IN,
-  payload: {
-    email, 
-    password
-  }
+  payload: {...formData}
 });
 
 export const logOut = () => ({
   type: LOG_OUT,
 });
 
-export const signUp = (email, password, name, surname) => ({
+export const signUp = (formData) => ({
   type: SIGN_UP,
-  payload: {
-    email, 
-    password, 
-    name, 
-    surname
-  } 
+  payload: {...formData} 
 });
 
 export const postCard = (isCardData) => ({
@@ -42,14 +34,9 @@ export const postCard = (isCardData) => ({
   payload: isCardData 
 }); 
 
-export const saveCardData = (cardName, cardNumber, expiryDate, cvc) => ({
+export const saveCardData = (formData) => ({
   type: SAVE_CARD_DATA,
-  payload: {
-    cardName, 
-    cardNumber, 
-    expiryDate, 
-    cvc
-  }
+  payload: {...formData}
 });
 
 export const getCard = () => ({
@@ -61,12 +48,9 @@ export const getAddresses = (addresses) => ({
   payload: addresses
 });
 
-export const addAddresses = (address1, address2) => ({
+export const addAddresses = (formData) => ({
   type: ADD_ADDRESSES,
-  payload: {
-    address1, 
-    address2
-  }
+  payload: {...formData}
 });
 
 export const buildARoute = (routePoints) => ({

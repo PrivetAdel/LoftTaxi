@@ -56,6 +56,16 @@ export const loftTaxiTheme = createMuiTheme({
         bottom: "-1.2em"
       }
     },
+    MuiContainer: {
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxShadow: '0px 0px 40px rgba(0, 0, 0, 0.1)',
+        borderRadius: '20px',
+        backgroundColor: '#fff'
+      }
+    },
     MuiButton: {
       root: {
         textTransform: "none"

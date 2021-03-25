@@ -1,12 +1,16 @@
 import React, {useCallback} from 'react';
-import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import {Container, Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import {signUp} from '../../redux/actions';
-import {FormContainer, Form, SubmitButton} from '../../components';
+import {Form, SubmitButton} from '../../components';
+import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(4, 10)
+  },
   title: {
     fontWeight: 700,
     margin: theme.spacing(1, 0, 2)
@@ -17,40 +21,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormSignUp = ({onLogIn}) => {
+  const [formData, setFormData] = React.useState({
+    email: '', 
+    name: '', 
+    surname: '', 
+    password: ''
+  });
+  const {register, errors} = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [email, setEmail] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [surname, setSurname] = React.useState('');
-  const [password, setPassword] = React.useState('');
 
-  const emailChangeHandle = (evt) => {
-    setEmail(evt.target.value);
+  const handleChange = (evt) => {
+    const {name, value} = evt.target;
+    setFormData({ ...formData, [name]: value});
   };
 
-  const nameChangeHandle = (evt) => {
-    setName(evt.target.value);
-  };
-
-  const surnameChangeHandle = (evt) => {
-    setSurname(evt.target.value);
-  }
-
-  const passwordChangeHandle = (evt) => {
-    setPassword(evt.target.value);
-  };
-
-  const registrationHandler = useCallback((email, password, name, surname) => {
-    dispatch(signUp(email, password, name, surname));
+  const registrationHandler = useCallback((formData) => {
+    dispatch(signUp(formData));
   }, []);
 
-  const signUpHandler = (evt) => {
-    evt.preventDefault();
-    registrationHandler(email, password, name, surname);
+  const signUpHandler = () => {
+    registrationHandler(formData);
   };
 
   return (
-    <FormContainer maxWidth="sm" padding="8, 12">
+    <Container maxWidth="sm" className={classes.root} >
       <Typography className={classes.title} align="center" variant="h4">
         Регистрация
       </Typography>
@@ -58,44 +53,55 @@ const FormSignUp = ({onLogIn}) => {
       <Form onSubmitHandler={signUpHandler}>
         <InputLabel htmlFor="email" className={classes.label} >Email*</InputLabel>
         <Input
+          required
+          fullWidth
           type="text"
           id="email"
-          value={email}
+          name="email"
           placeholder="mail@mail.ru"
-          onChange={emailChangeHandle}
-          fullWidth
-          required />
+          ref={register}
+          value={formData.email}
+          onChange={handleChange} />
+        {errors.email && <p>Поле обязательно для заполнения</p>}
 
         <InputLabel htmlFor="name" className={classes.label} >Имя*</InputLabel>
         <Input
+          required
+          fullWidth
           type="text"
           id="name"
-          value={name}
+          name="name"
           placeholder="Петр"
-          onChange={nameChangeHandle}
-          fullWidth
-          required />
-
+          value={formData.name}
+          inputRef={register}
+          onChange={handleChange} />
+        {errors.name && <p>Поле обязательно для заполнения</p>}
 
         <InputLabel htmlFor="surname" className={classes.label} >Фамилия*</InputLabel>
         <Input
+          required
+          fullWidth
           type="text"
           id="surname"
-          value={surname}
+          name="surname"
           placeholder="Петров"
-          onChange={surnameChangeHandle}
-          fullWidth
-          required />
+          value={formData.surname}
+          inputRef={register}
+          onChange={handleChange} />
+        {errors.surname && <p>Поле обязательно для заполнения</p>}
 
         <InputLabel htmlFor="password" className={classes.label} >Придумайте пароль*</InputLabel>
         <Input
+          required
+          fullWidth
           type="text"
           id="password"
-          value={password}
+          name="password"
           placeholder="*************"
-          onChange={passwordChangeHandle}
-          fullWidth
-          required />
+          ref={register}
+          value={formData.password}
+          onChange={handleChange} />
+        {errors.password && <p>Поле обязательно для заполнения</p>}
 
         <SubmitButton>Зарегистрироваться</SubmitButton>
 
@@ -106,7 +112,7 @@ const FormSignUp = ({onLogIn}) => {
           </Link>
         </Typography>
       </Form>
-    </FormContainer>
+    </Container>
   );
 };
 

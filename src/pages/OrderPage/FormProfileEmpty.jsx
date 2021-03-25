@@ -1,30 +1,46 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Typography} from '@material-ui/core';
+import {Typography, Container, Button} from '@material-ui/core';
+import {Overlay} from '../../components';
 import {Link} from 'react-router-dom';
-import {FormContainer} from '../../components';
-import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles((loftTaxiTheme) => ({
-  link: {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(7, 6, 4),
+    zIndex: 2,
+    pointerEvents: 'all'
+  },
+  button: {
     borderRadius: '70px', 
     padding: '9px 30px',
     fontSize: '24px',
-    backgroundColor: '#fdbf5a'
-    // margin: theme.spacing(6, 0, 4)
+    margin: theme.spacing(4, 0)
+  },
+  link: {
+    color: 'black',
+    textDecoration: 'none'
   }
 }));
 
 const FormProfileEmpty = () => {
-  const classes = useStyles(loftTaxiTheme);
+  const classes = useStyles();
 
   return (
-    <FormContainer maxWidth="md"  padding="5">
-      <Typography align="center" variant="h5">
-        Для заказа такси заполните платёжные данные.
-      </Typography>
-      <Link to="/main/profile" className={classes.link}>Перейти в профиль</Link>
-    </FormContainer>
+    <>
+      <Overlay />
+      
+      <Container maxWidth="md" className={classes.root} >
+        <Typography align="center" variant="h5">
+          Для заказа такси заполните платёжные данные
+        </Typography>
+        <Button
+          variant="contained" 
+          color="primary" 
+          className={classes.button}>
+          <Link to="/main/profile" className={classes.link}>Перейти в профиль</Link>
+        </Button>
+      </Container>
+    </>
   );
 };
 

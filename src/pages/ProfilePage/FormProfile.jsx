@@ -1,21 +1,43 @@
 import React, {useCallback} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Typography, InputLabel, Input, Grid} from '@material-ui/core';
-import {FormContainer, Form, SubmitButton} from '../../components';
+import {Container, Typography, InputLabel, Input, Grid} from '@material-ui/core';
+import {Form, SubmitButton, Overlay} from '../../components';
 import {useDispatch} from 'react-redux';
 import {saveCardData} from '../../redux/actions';
+import {useForm} from 'react-hook-form';
+import PropTypes from 'prop-types';
 import logoPic from '../../assets/logo-pic.svg';
 import chip from '../../assets/chip.svg';
 import masterCard from '../../assets/master-card-logo.svg';
-import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(3, 8),
+    zIndex: 2,
+    pointerEvents: 'all'
+  },
   title: {
     fontWeight: 700,
-    margin: loftTaxiTheme.spacing(1, 0, 2)
+    margin: theme.spacing(1, 0)
   },
   label: {
-    marginTop: loftTaxiTheme.spacing(3)
+    marginTop: theme.spacing(1)
+  },
+  card: {
+    padding: theme.spacing(2, 3),
+    marginTop: theme.spacing(3)
+  },
+  inputData: {
+    border: 'none',
+    textAlign: 'end',
+    color: 'black',
+    outline: 'none'
+  },
+  inputNumber: {
+    border: 'none',
+    fontSize: '1rem',
+    color: 'black',
+    outline: 'none'
   },
   smallGrid: {
     maxWidth: '50%'
@@ -26,115 +48,149 @@ const useStyles = makeStyles(() => ({
 }));
 
 const FormProfile = ({cardData}) => {
+  const [formData, setFormData] = React.useState({
+    cardName: cardData.cardName, 
+    cardNumber: cardData.cardNumber, 
+    expiryDate: cardData.expiryDate, 
+    cvc: cardData.cvc
+  });
+  const {register, errors} = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [cardName, setCardName] = React.useState(cardData.cardName);
-  const [cardNumber, setCardNumber] = React.useState(cardData.cardNumber);
-  const [expiryDate, setExpiryDate] = React.useState(cardData.expiryDate);
-  const [cvc, setCvc] = React.useState(cardData.cvc);
 
-  const nameChangeHandler = (evt) => {
-    setCardName(evt.target.value);
+  const handleChange = (evt) => {
+    const {name, value} = evt.target;
+    setFormData({ ...formData, [name]: value});
   };
 
-  const cardNumberChangeHandler = (evt) => {
-    setCardNumber(evt.target.value);
-  };
-  
-  const dateChangeHandler = (evt) => {
-    setExpiryDate(evt.target.value);
-  };
-
-  const cvcChangeHandler = (evt) => {
-    setCvc(evt.target.value);
-  };
-
-  const saveCardDataHandler = useCallback((cardName, cardNumber, expiryDate, cvc) => {
-    dispatch(saveCardData(cardName, cardNumber, expiryDate, cvc));
+  const saveCardDataHandler = useCallback((formData) => {
+    dispatch(saveCardData(formData));
   }, []);
 
-  const submitHandler = (evt) => {
-    evt.preventDefault();
-    saveCardDataHandler(cardName, cardNumber, expiryDate, cvc);
+  const submitHandler = () => {
+    saveCardDataHandler(formData);
   };
 
   return (
-    <FormContainer maxWidth="md" padding="5">
-      <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
-        Профиль
-      </Typography>
-      <Typography align="center" variant="subtitle2" color="textSecondary">
-        Введите платежные данные
-      </Typography>
-      <Form onSubmitHandler={submitHandler}>
-        <Grid container direction="row" justify="center" spacing={2}>
-          <Grid container item xs={12} sm={6} spacing={2}>
-            <Grid item className={classes.longGrid}>
-              <InputLabel htmlFor="name" className={classes.label} >Имя владельца</InputLabel>
-              <Input
-                type="text"
-                id="name"
-                placeholder="Loft"
-                value={cardName}
-                onChange={nameChangeHandler}
-                fullWidth
-                required />
-            </Grid>
+    <>
+      <Overlay />
+      
+      <Container maxWidth="md" className={classes.root} >
+        <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
+          Профиль
+        </Typography>
+        <Typography align="center" variant="subtitle2" color="textSecondary">
+          Введите платежные данные
+        </Typography>
+        <Form onSubmitHandler={submitHandler}>
+          <Grid container justify="center" spacing={2}>
+            <Grid container direction="row" justify="space-between" spacing={5}>
+              <Grid container item xs={12} sm={6} spacing={2}>
+                <Grid item className={classes.longGrid}>
+                  <InputLabel htmlFor="cardName" className={classes.label} >Имя владельца</InputLabel>
+                  <Input
+                    fullWidth
+                    type="text"
+                    id="cardName"
+                    name="cardName"
+                    placeholder="Loft"
+                    value={formData.cardName}
+                    onChange={handleChange}
+                    inputRef={register({required: true})} />
+                  {errors.password && <p>Поле обязательно для заполнения</p>}
+                </Grid>
 
-            <Grid item className={classes.longGrid}>
-              <InputLabel htmlFor="cardNumber" className={classes.label} >Номер карты</InputLabel>
-              <Input
-                type="text"
-                id="cardNumber"
-                value={cardNumber}
-                placeholder="0000 0000 0000 0000"
-                onChange={cardNumberChangeHandler}
-                fullWidth
-                required />
-            </Grid>
+                <Grid item className={classes.longGrid}>
+                  <InputLabel htmlFor="cardNumber" className={classes.label} >Номер карты</InputLabel>
+                  <Input
+                    fullWidth
+                    required
+                    type="text"
+                    id="cardNumber"
+                    name="cardNumber"
+                    placeholder="0000 0000 0000 0000"
+                    inputRef={register}
+                    value={formData.cardNumber}
+                    onChange={handleChange} />
+                </Grid>
 
-            <Grid container item className={classes.longGrid} spacing={2}>
-              <Grid item className={classes.smallGrid}>
-                <InputLabel htmlFor="date" className={classes.label} >MM/YY</InputLabel>
-                <Input
-                  type="text"
-                  id="date"
-                  value={expiryDate}
-                  placeholder="00/00"
-                  onChange={dateChangeHandler}
-                  required />
+                <Grid container item className={classes.longGrid} spacing={2} >
+                  <Grid item className={classes.smallGrid}>
+                    <InputLabel htmlFor="expiryDate" className={classes.label} >MM/YY</InputLabel>
+                    <Input
+                      required
+                      type="text"
+                      id="expiryDate"
+                      name="expiryDate"
+                      placeholder="00/00"
+                      inputRef={register} 
+                      value={formData.expiryDate}
+                      onChange={handleChange} />
+                  </Grid>
+                  
+                  <Grid item className={classes.smallGrid}>
+                    <InputLabel htmlFor="cvc" className={classes.label} >CVC</InputLabel>
+                    <Input
+                      required
+                      type="number"
+                      id="cvc"
+                      name="cvc"
+                      placeholder="000"
+                      inputRef={register} 
+                      value={formData.cvc}
+                      onChange={handleChange} />
+                  </Grid>
+                </Grid>
               </Grid>
               
-              <Grid item className={classes.smallGrid}>
-                <InputLabel htmlFor="cvc" className={classes.label} >CVC</InputLabel>
-                <Input
-                  type="number"
-                  id="cvc"
-                  value={cvc}
-                  placeholder="000"
-                  onChange={cvcChangeHandler}
-                  required />
+              <Grid item xs={12} sm={5} >
+                <Container maxWidth="xs" className={classes.card} >
+                  <Grid container spacing={2} >
+                    <Grid container item justify="space-between">
+                      <img width="33" height="33" src={logoPic} alt="loft-taxi logo-pic"/>
+                      <input
+                        readOnly
+                        type="text"
+                        placeholder="00/00"
+                        value={formData.expiryDate}
+                        className={classes.inputData} />
+                    </Grid>
+
+                    <Grid container item >
+                      <input
+                        readOnly
+                        type="text"
+                        placeholder="0000 0000 0000 0000"
+                        value={formData.cardNumber}
+                        className={classes.inputNumber} />
+                    </Grid>
+
+                    <Grid container item justify="space-between">
+                      <img width="29" height="26" src={chip} alt="chip"/>
+                      <img width="46" height="28" src={masterCard} alt="masterCard"/>
+                    </Grid>
+                  </Grid>
+                </Container>
               </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item xs={12}  sm={6}>
-            <FormContainer maxWidth="xs"  padding="4, 5">
-              <img width="33" height="33" src={logoPic} alt="loft-taxi logo-pic"/>
-              <p>{expiryDate}</p>
-              <p>{cardNumber}</p>
-              <img width="29" height="26" src={chip} alt="chip"/>
-              <img width="50" height="28" src={masterCard} alt="masterCard"/>
-            </FormContainer>
+            <Grid container item className={classes.smallGrid} >
+              <SubmitButton>Сохранить</SubmitButton>
+            </Grid>
           </Grid>
-
-          <Grid container item className={classes.smallGrid}>
-            <SubmitButton>Сохранить</SubmitButton>
-          </Grid>
-        </Grid>
-      </Form>
-    </FormContainer>
+        </Form>
+      </Container>
+    </>
   );
+};
+
+FormProfile.propTypes = {
+  cardData: PropTypes.shape({
+    cardName: PropTypes.string,
+    cardNumber: PropTypes.string,
+    expiryDate: PropTypes.string,
+    cvc: PropTypes.string
+  })
 };
 
 export default FormProfile;

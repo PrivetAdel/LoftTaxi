@@ -1,46 +1,45 @@
 import React, {useCallback} from 'react';
-import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import {Container, Typography, InputLabel, Input, Link} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
-import {FormContainer, Form, SubmitButton} from '../../components';
+import {Form, SubmitButton} from '../../components';
+import {useForm} from 'react-hook-form';
 import {logIn} from '../../redux/actions';
 import PropTypes from 'prop-types';
-import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(6, 10)
+  },
   title: {
     fontWeight: 700,
-    margin: loftTaxiTheme.spacing(1, 0, 2)
+    margin: theme.spacing(1, 0, 2)
   },
   label: {
-    marginTop: loftTaxiTheme.spacing(3)
+    marginTop: theme.spacing(3)
   },
   link: {
     color: '#828282'
-  },
+  }
 }));
 
 const FormLogin = ({onSignUp}) => {
+  const [formData, setFormData] = React.useState({email: '', password: ''});
+  const {register, errors} = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
 
-  const emailChangeHandle = (evt) => {
-    setEmail(evt.target.value);
-  }
+  const handleChange = (evt) => {
+    const {name, value} = evt.target;
+    setFormData({ ...formData, [name]: value});
+  };
 
-  const passwordChangeHandle = (evt) => {
-    setPassword(evt.target.value);
-  }
-
-  const loginHandler = useCallback((email, password) => {
-    dispatch(logIn(email, password));
+  const loginHandler = useCallback((formData) => {
+    dispatch(logIn(formData));
   }, []);
 
-  const submitFormHandler = (evt) => {
-    evt.preventDefault();
-    loginHandler(email, password);
+  const submitFormHandler = () => {
+    loginHandler(formData);
   }
 
   const forgotPasswordHandler = (evt) => {
@@ -49,32 +48,35 @@ const FormLogin = ({onSignUp}) => {
   }
 
   return (
-    <FormContainer maxWidth="sm" padding="8" >
+    <Container maxWidth="sm" className={classes.root} >
       <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Войти
       </Typography>
 
       <Form onSubmitHandler={submitFormHandler} >
-
         <InputLabel htmlFor="email" className={classes.label} >Email</InputLabel>
         <Input
-          type="email"
-          id="email"
-          value={email}
-          placeholder="mail@mail.ru"
-          onChange={emailChangeHandle}
           fullWidth
-          required />
+          id="email"
+          name="email"
+          type="email"
+          placeholder="mail@mail.ru"
+          value={formData.email}
+          onChange={handleChange}
+          inputRef={register({required: "required", message: "Поле обязательно для заполнения"})} />
+        {errors.email && <span>{errors.email.message}</span>}
 
         <InputLabel htmlFor="password" className={classes.label} >Пароль</InputLabel>
         <Input
-          type="password"
-          id="password"
-          value={password}
-          placeholder="*************"
-          onChange={passwordChangeHandle}
           fullWidth
-          required />
+          id="password"
+          name="password"
+          type="password"
+          placeholder="*************"
+          value={formData.password}
+          onChange={handleChange}
+          inputRef={register({required: true})} />
+        {errors.password && <p>Поле обязательно для заполнения</p>}
         
         <Typography align="right" className={classes.label} >
           <Link onClick={forgotPasswordHandler} className={classes.link}>Забыли пароль?</Link>
@@ -89,7 +91,7 @@ const FormLogin = ({onSignUp}) => {
           </Link>
         </Typography>
       </Form>
-    </FormContainer>
+    </Container>
   );
 };
 

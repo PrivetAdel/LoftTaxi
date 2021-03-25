@@ -25,6 +25,9 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     marginLeft: 'auto'
+  },
+  active: {
+    color: 'red'
   }
 });
 
@@ -45,15 +48,15 @@ const Header = () => {
 
       <MenuList className={classes.nav}>
         <MenuItem >
-          <NavLink to="/main" >Карта</NavLink>
+          <NavLink to="/main" activeClassName={classes.active} >Карта</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <NavLink to="/main/profile" >Профиль</NavLink>
+          <NavLink to="/main/profile" activeClassName={classes.active} >Профиль</NavLink>
         </MenuItem>
 
         <MenuItem >
-          <NavLink onClick={logoutHandler} to="/login" >Выйти</NavLink>
+          <NavLink to="/login" onClick={logoutHandler} activeClassName={classes.active} >Выйти</NavLink>
         </MenuItem>
         
       </MenuList>

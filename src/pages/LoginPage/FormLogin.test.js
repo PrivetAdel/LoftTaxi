@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, act} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import FormLogin from './FormLogin';
 
@@ -62,7 +62,7 @@ describe("FormLogin", () => {
     expect(props.onSignUp).toHaveBeenCalled();
   });
 
-  it("submit form", () => {
+  it("submit form", async () => {
     const logIn = jest.fn();
 
     const mockStore = {
@@ -77,7 +77,10 @@ describe("FormLogin", () => {
       </Provider>
     );
 
-    fireEvent.submit(getByTestId('form'));
+    await act(async () => {
+      fireEvent.submit(getByTestId('form'));
+    });
+    
     expect(logIn).toHaveBeenCalled();
   });
 });
