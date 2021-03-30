@@ -1,6 +1,6 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Container, FormControlLabel, Radio, RadioGroup, Grid, NativeSelect, InputLabel, FormControl} from '@material-ui/core';
+import {Container, FormControlLabel, Radio, RadioGroup, Grid, NativeSelect, InputLabel, FormControl, FormHelperText} from '@material-ui/core';
 import {SubmitButton} from '../../components';
 import {useSelector, useDispatch} from 'react-redux';
 import {addAddresses} from '../../redux/actions';
@@ -37,10 +37,13 @@ const useStyles = makeStyles((theme) => ({
 
 const FormOrder = () => {
   const [carClass, setCarClass] = React.useState('standard');
-  const {register, handleSubmit, errors} = useForm();
+  const {register, handleSubmit, watch, errors} = useForm();
   const addressList = useSelector(({orderReducer}) => orderReducer.addresses);
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  const watchAddress1 = watch("address1");
+  const watchAddress2 = watch("address2");
 
   const changeClassHandler = (evt) => {
     setCarClass(evt.target.value);
@@ -61,13 +64,13 @@ const FormOrder = () => {
               <NativeSelect
                 id="address1"
                 name="address1"
-                inputProps={{ "data-testid": "select" }}
+                inputProps={{"data-testid": "select"}}
                 inputRef={register({required: true})}
                 error={errors.password ? true : false}
               >
                 <option value="" />
                 {
-                  addressList.filter(address => address !== `${formData.address2}`).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
+                  addressList.filter(address => address !== watchAddress2).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
                 }
               </NativeSelect>
               {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
@@ -83,7 +86,7 @@ const FormOrder = () => {
               >
                 <option value="" />
                 {
-                  addressList.filter(address => address !== `${formData.address1}`).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
+                  addressList.filter(address => address !== watchAddress1).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
                 }
               </NativeSelect>
               {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
