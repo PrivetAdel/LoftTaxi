@@ -26,7 +26,8 @@ export const cardReducer = (state = initialState, action) => {
 
     case GET_CARD:
       return {
-        ...state
+        ...state,
+        cardData: action.payload
       }
     
     default: 

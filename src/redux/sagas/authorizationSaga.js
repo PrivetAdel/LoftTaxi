@@ -6,8 +6,8 @@ export function* authSaga(action) {
   try {
     const {email, password} = action.payload;
     const response = yield call(serverAuth, email, password);
-    yield put(getAuth(response.success));
     yield call(saveToken, response.token);
+    yield put(getAuth(response.success));
   } catch (error) {
     console.log(error);
   }
