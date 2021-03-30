@@ -1,8 +1,8 @@
-import React, {useCallback} from 'react';
-import {Container, Typography, InputLabel, Input, Link} from '@material-ui/core';
+import React from 'react';
+import {Container, Typography, InputLabel, Input, Link, FormHelperText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
-import {Form, SubmitButton} from '../../components';
+import {SubmitButton} from '../../components';
 import {useForm} from 'react-hook-form';
 import {logIn} from '../../redux/actions';
 import PropTypes from 'prop-types';
@@ -10,6 +10,9 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(6, 10)
+  },
+  form: {
+    width: '100%'
   },
   title: {
     fontWeight: 700,
@@ -24,23 +27,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormLogin = ({onSignUp}) => {
-  const [formData, setFormData] = React.useState({email: '', password: ''});
-  const {register, errors} = useForm();
+  const {register, handleSubmit, errors} = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const handleChange = (evt) => {
-    const {name, value} = evt.target;
-    setFormData({ ...formData, [name]: value});
+  const submitFormHandler = (data) => {
+    const {email, password} = data;
+    dispatch(logIn(email, password));
   };
-
-  const loginHandler = useCallback((formData) => {
-    dispatch(logIn(formData));
-  }, []);
-
-  const submitFormHandler = () => {
-    loginHandler(formData);
-  }
 
   const forgotPasswordHandler = (evt) => {
     evt.preventDefault();
@@ -53,7 +47,7 @@ const FormLogin = ({onSignUp}) => {
         Войти
       </Typography>
 
-      <Form onSubmitHandler={submitFormHandler} >
+      <form data-testid="form" className={classes.form} onSubmit={handleSubmit(submitFormHandler)} >
         <InputLabel htmlFor="email" className={classes.label} >Email</InputLabel>
         <Input
           fullWidth
@@ -61,10 +55,9 @@ const FormLogin = ({onSignUp}) => {
           name="email"
           type="email"
           placeholder="mail@mail.ru"
-          value={formData.email}
-          onChange={handleChange}
-          inputRef={register({required: "required", message: "Поле обязательно для заполнения"})} />
-        {errors.email && <span>{errors.email.message}</span>}
+          inputRef={register({required: true})}
+          error={!!errors.password} />
+        {errors.email && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
 
         <InputLabel htmlFor="password" className={classes.label} >Пароль</InputLabel>
         <Input
@@ -73,10 +66,9 @@ const FormLogin = ({onSignUp}) => {
           name="password"
           type="password"
           placeholder="*************"
-          value={formData.password}
-          onChange={handleChange}
-          inputRef={register({required: true})} />
-        {errors.password && <p>Поле обязательно для заполнения</p>}
+          inputRef={register({required: true})}
+          error={errors.password ? true : false} />
+        {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
         
         <Typography align="right" className={classes.label} >
           <Link onClick={forgotPasswordHandler} className={classes.link}>Забыли пароль?</Link>
@@ -90,7 +82,7 @@ const FormLogin = ({onSignUp}) => {
             Регистрация
           </Link>
         </Typography>
-      </Form>
+      </form>
     </Container>
   );
 };

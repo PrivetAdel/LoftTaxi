@@ -99,12 +99,12 @@ describe("FormSignUp", () => {
   });
 
   it("submit form", async () => {
-    const logIn = jest.fn();
+    const signUp = jest.fn();
 
     const mockStore = {
       getState: () => {},
       subscribe: () => {},
-      dispatch: () => {logIn('test@test.com', '123123')},
+      dispatch: () => {signUp('test@test.com', '123123')},
     };
 
     const {getByTestId} = render(
@@ -117,6 +117,6 @@ describe("FormSignUp", () => {
       fireEvent.submit(getByTestId('form'));
     });
     
-    expect(logIn).toHaveBeenCalled();
+    expect(signUp).toHaveBeenCalled();
   });
 });

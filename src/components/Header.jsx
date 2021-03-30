@@ -26,10 +26,21 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginLeft: 'auto'
   },
+  navLink: {
+    color: 'white',
+    textDecoration: 'none'
+  },
   active: {
-    color: 'red'
+    color: '#fdbf5a'
   }
 });
+
+const activePage = (match, location) => {
+  if (!match) {
+    return false;
+  }
+  return match.url === "/main" && location.pathname !== "/main/profile"
+};
 
 const Header = () => {
   const classes = useStyles();
@@ -48,15 +59,32 @@ const Header = () => {
 
       <MenuList className={classes.nav}>
         <MenuItem >
-          <NavLink to="/main" activeClassName={classes.active} >Карта</NavLink>
+          <NavLink 
+            to="/main" 
+            isActive={(match, location) => activePage(match, location)} 
+            className={classes.navLink}
+            activeClassName={classes.active} >
+            Карта
+          </NavLink>
         </MenuItem>
 
         <MenuItem >
-          <NavLink to="/main/profile" activeClassName={classes.active} >Профиль</NavLink>
+          <NavLink 
+            to="/main/profile" 
+            className={classes.navLink}
+            activeClassName={classes.active} >
+            Профиль
+          </NavLink>
         </MenuItem>
 
         <MenuItem >
-          <NavLink to="/login" onClick={logoutHandler} activeClassName={classes.active} >Выйти</NavLink>
+          <NavLink 
+            to="/login" 
+            onClick={logoutHandler}
+            className={classes.navLink}
+            activeClassName={classes.active} >
+            Выйти
+          </NavLink>
         </MenuItem>
         
       </MenuList>

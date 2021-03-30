@@ -6,18 +6,18 @@ import FormOrder from './FormOrder';
 describe("FormOrder", () => {
   it("select 'address1'", () => {
     const mockStore = {
-      getState: () => ({orderReducer: {addresses: []}}),
+      getState: () => ({orderReducer: {addresses: ['address1', 'address2']}}),
       subscribe: () => {},
       dispatch: () => {},
     };
 
-    const {getByLabelText} = render(
+    const {getByTestId} = render(
       <Provider store={mockStore}>
         <FormOrder />
       </Provider>
     );
 
-    const inputName = getByLabelText(/Откуда/i);
+    const inputName = getByTestId('select');
     fireEvent.change(inputName, {target: {value: 'address1'}});
     expect(inputName.value).toBe('address1');
   });

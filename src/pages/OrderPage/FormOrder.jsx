@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Container, FormControlLabel, Radio, RadioGroup, Grid, NativeSelect, InputLabel, FormControl} from '@material-ui/core';
-import {Form, SubmitButton} from '../../components';
+import {SubmitButton} from '../../components';
 import {useSelector, useDispatch} from 'react-redux';
 import {addAddresses} from '../../redux/actions';
 import {useForm} from 'react-hook-form';
@@ -36,9 +36,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormOrder = () => {
-  const [formData, setFormData] = React.useState({address1: '', address2: ''});
   const [carClass, setCarClass] = React.useState('standard');
-  const {register, errors} = useForm();
+  const {register, handleSubmit, errors} = useForm();
   const addressList = useSelector(({orderReducer}) => orderReducer.addresses);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -46,23 +45,15 @@ const FormOrder = () => {
   const changeClassHandler = (evt) => {
     setCarClass(evt.target.value);
   };
-  
-  const handleChange = (evt) => {
-    const {name, value} = evt.target;
-    setFormData({ ...formData, [name]: value});
-  };
 
-  const getRouteHandler = useCallback((formData) => {
-    dispatch(addAddresses(formData));
-  }, []);
-
-  const submitHandler = () => {
-    getRouteHandler(formData);
+  const getRouteHandler = (data) => {
+    const {address1, address2} = data;
+    dispatch(addAddresses(address1, address2));
   };
 
   return (
     <Container maxWidth="xs" className={classes.root} >
-      <Form onSubmitHandler={submitHandler}>
+      <form data-testid="form" className={classes.form} onSubmit={handleSubmit(getRouteHandler)} >
         <Grid container direction="row" justify="center">
           <Grid container direction="column" className={classes.inputBlock} >
             <FormControl>
@@ -70,15 +61,16 @@ const FormOrder = () => {
               <NativeSelect
                 id="address1"
                 name="address1"
-                ref={register}
-                value={formData.address1}
-                onChange={handleChange}
+                inputProps={{ "data-testid": "select" }}
+                inputRef={register({required: true})}
+                error={errors.password ? true : false}
               >
                 <option value="" />
                 {
                   addressList.filter(address => address !== `${formData.address2}`).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
                 }
               </NativeSelect>
+              {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
             </FormControl>
 
             <FormControl className={classes.controll}>
@@ -86,15 +78,15 @@ const FormOrder = () => {
               <NativeSelect
                 id="address2"
                 name="address2"
-                ref={register}
-                value={formData.address2}
-                onChange={handleChange}
+                inputRef={register({required: true})}
+                error={errors.password ? true : false}
               >
                 <option value="" />
                 {
                   addressList.filter(address => address !== `${formData.address1}`).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
                 }
               </NativeSelect>
+              {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
             </FormControl>
           </Grid>
 
@@ -112,7 +104,7 @@ const FormOrder = () => {
             </Grid>
           </Container>
         </Grid>
-      </Form>
+      </form>
     </Container>
   );
 };

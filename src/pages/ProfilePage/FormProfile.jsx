@@ -1,7 +1,9 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Container, Typography, InputLabel, Input, Grid} from '@material-ui/core';
-import {Form, SubmitButton, Overlay} from '../../components';
+import {Container, Typography, InputLabel, Input, Grid, FormHelperText} from '@material-ui/core';
+import {DatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+import DayjsUtils from '@date-io/dayjs';
+import {SubmitButton, Overlay} from '../../components';
 import {useDispatch} from 'react-redux';
 import {saveCardData} from '../../redux/actions';
 import {useForm} from 'react-hook-form';
@@ -16,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 2,
     pointerEvents: 'all'
   },
+  form: {
+    width: '100%'
+  },
   title: {
     fontWeight: 700,
     margin: theme.spacing(1, 0)
@@ -27,17 +32,19 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 3),
     marginTop: theme.spacing(3)
   },
-  inputData: {
-    border: 'none',
-    textAlign: 'end',
-    color: 'black',
-    outline: 'none'
+  data: {
+    '& input': {
+      textAlign: 'end',
+      fontSize: '0.9rem',
+      outline: 'none',
+    }
   },
-  inputNumber: {
+  number: {
     border: 'none',
     fontSize: '1rem',
     color: 'black',
-    outline: 'none'
+    outline: 'none',
+    margin: 0
   },
   smallGrid: {
     maxWidth: '50%'
@@ -47,28 +54,38 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const maskNumber = (number) => {
+  return number
+    .replace(/\D/gi, '')
+    .replace(/(.{4})/g, '$1 ')
+    .replace(/(?<=.{19})(.*)/g, '')
+};
+
+const maskCvc = (cvc) => {
+  return cvc
+    .replace(/\D/gi, '')
+    .replace(/(?<=.{3})(.*)/g, '')
+};
+
+const transformDate = (date) => {
+  return date
+    .replace(/^(.{3})(.*)/gm, '$2, $1')
+    .replace(/^(.{2})/gm, '20$1')
+    .replace(/\//gm, '')
+    .split(', ')
+};
+
 const FormProfile = ({cardData}) => {
-  const [formData, setFormData] = React.useState({
-    cardName: cardData.cardName, 
-    cardNumber: cardData.cardNumber, 
-    expiryDate: cardData.expiryDate, 
-    cvc: cardData.cvc
-  });
-  const {register, errors} = useForm();
+  const {register, handleSubmit, watch, setValue, errors} = useForm();
+  const [date, setDate] = React.useState(`${cardData.expiryDate ? new Date(transformDate(cardData.expiryDate)) : new Date()}`);
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const handleChange = (evt) => {
-    const {name, value} = evt.target;
-    setFormData({ ...formData, [name]: value});
-  };
+  const watchCardNumber = watch("cardNumber");
 
-  const saveCardDataHandler = useCallback((formData) => {
-    dispatch(saveCardData(formData));
-  }, []);
-
-  const submitHandler = () => {
-    saveCardDataHandler(formData);
+  const saveCardDataHandler = (data) => {
+    const {cardName, cardNumber, expiryDate, cvc} = data;
+    dispatch(saveCardData(cardName, cardNumber, expiryDate, cvc));
   };
 
   return (
@@ -82,7 +99,7 @@ const FormProfile = ({cardData}) => {
         <Typography align="center" variant="subtitle2" color="textSecondary">
           Введите платежные данные
         </Typography>
-        <Form onSubmitHandler={submitHandler}>
+        <form data-testid="form" className={classes.form} onSubmit={handleSubmit(saveCardDataHandler)}>
           <Grid container justify="center" spacing={2}>
             <Grid container direction="row" justify="space-between" spacing={5}>
               <Grid container item xs={12} sm={6} spacing={2}>
@@ -94,51 +111,61 @@ const FormProfile = ({cardData}) => {
                     id="cardName"
                     name="cardName"
                     placeholder="Loft"
-                    value={formData.cardName}
-                    onChange={handleChange}
-                    inputRef={register({required: true})} />
-                  {errors.password && <p>Поле обязательно для заполнения</p>}
+                    defaultValue={cardData.cardName}
+                    inputRef={register({required: true})}
+                    error={!!errors.cardName} />
+                  {errors.cardName && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
                 </Grid>
 
                 <Grid item className={classes.longGrid}>
                   <InputLabel htmlFor="cardNumber" className={classes.label} >Номер карты</InputLabel>
                   <Input
                     fullWidth
-                    required
                     type="text"
                     id="cardNumber"
                     name="cardNumber"
                     placeholder="0000 0000 0000 0000"
-                    inputRef={register}
-                    value={formData.cardNumber}
-                    onChange={handleChange} />
+                    defaultValue={cardData.cardNumber}
+                    inputRef={register({required: true})}
+                    onChange={(evt) => setValue("cardNumber", maskNumber(evt.target.value))}
+                    error={!!errors.cardNumber} />
+                  {errors.cardNumber && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
                 </Grid>
 
                 <Grid container item className={classes.longGrid} spacing={2} >
                   <Grid item className={classes.smallGrid}>
                     <InputLabel htmlFor="expiryDate" className={classes.label} >MM/YY</InputLabel>
-                    <Input
-                      required
-                      type="text"
-                      id="expiryDate"
-                      name="expiryDate"
-                      placeholder="00/00"
-                      inputRef={register} 
-                      value={formData.expiryDate}
-                      onChange={handleChange} />
+                    <MuiPickersUtilsProvider utils={DayjsUtils}>
+                      <DatePicker
+                        id="expiryDate"
+                        name="expiryDate"
+                        format="MM/YY"
+                        views={['year', 'month']}
+                        minDate={new Date()}
+                        maxDate={new Date('2026-03-01')}
+                        value={date}
+                        onChange={
+                          (newDate) => {setValue("expiryDate", setDate(newDate))}
+                        }
+                        inputRef={register({required: true})}
+                        error={!!errors.expiryDate}
+                      />
+                    </MuiPickersUtilsProvider>
+                    {errors.expiryDate && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
                   </Grid>
                   
                   <Grid item className={classes.smallGrid}>
                     <InputLabel htmlFor="cvc" className={classes.label} >CVC</InputLabel>
                     <Input
-                      required
-                      type="number"
+                      type="text"
                       id="cvc"
                       name="cvc"
                       placeholder="000"
-                      inputRef={register} 
-                      value={formData.cvc}
-                      onChange={handleChange} />
+                      defaultValue={cardData.cvc}
+                      onChange={(evt) => setValue("cvc", maskCvc(evt.target.value))}
+                      inputRef={register({required: true})}
+                      error={!!errors.cvc} />
+                    {errors.cvc && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
                   </Grid>
                 </Grid>
               </Grid>
@@ -146,23 +173,28 @@ const FormProfile = ({cardData}) => {
               <Grid item xs={12} sm={5} >
                 <Container maxWidth="xs" className={classes.card} >
                   <Grid container spacing={2} >
-                    <Grid container item justify="space-between">
+                    <Grid container item alignItems="center" justify="space-between">
                       <img width="33" height="33" src={logoPic} alt="loft-taxi logo-pic"/>
-                      <input
-                        readOnly
-                        type="text"
-                        placeholder="00/00"
-                        value={formData.expiryDate}
-                        className={classes.inputData} />
+                      <MuiPickersUtilsProvider utils={DayjsUtils}>
+                        <DatePicker
+                          readOnly
+                          className={classes.data}
+                          format="MM/YY"
+                          value={date}
+                          onChange={
+                            (newDate) => {setValue("expiryDate", setDate(newDate))}
+                          }
+                          error={!!errors.expiryDate}
+                        />
+                      </MuiPickersUtilsProvider>
                     </Grid>
 
-                    <Grid container item >
-                      <input
-                        readOnly
-                        type="text"
-                        placeholder="0000 0000 0000 0000"
-                        value={formData.cardNumber}
-                        className={classes.inputNumber} />
+                    <Grid container item alignItems="center" >
+                      <p className={classes.number}>
+                        {
+                          watchCardNumber ? watchCardNumber : (cardData.cardNumber ? cardData.cardNumber : "0000 0000 0000 0000")
+                        }
+                      </p>
                     </Grid>
 
                     <Grid container item justify="space-between">
@@ -178,7 +210,7 @@ const FormProfile = ({cardData}) => {
               <SubmitButton>Сохранить</SubmitButton>
             </Grid>
           </Grid>
-        </Form>
+        </form>
       </Container>
     </>
   );

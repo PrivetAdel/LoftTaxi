@@ -52,8 +52,7 @@ export const loftTaxiTheme = createMuiTheme({
     },
     MuiFormHelperText: {
       root: {
-        position: "absolute",
-        bottom: "-1.2em"
+        color: "red"
       }
     },
     MuiContainer: {
