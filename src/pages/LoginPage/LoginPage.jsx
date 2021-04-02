@@ -9,25 +9,49 @@ import mapBackground from '../../assets/map.png';
 import logoPic from '../../assets/logo-pic.svg';
 import logoText from '../../assets/logo-text.svg';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexWrap: 'nowrap'
-  },
-  rightSide: {
-    maxWidth: '70%',
     minHeight: '100vh',
-    alignItems: 'center',
-    backgroundImage: `url(${mapBackground})`
+    flexDirection: 'column',
+
+    [theme.breakpoints.up('tablet')]: {
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+    }
   },
   leftSide: {
-    maxWidth: '30%',
-    backgroundColor: 'black',
     display: 'flex',
-    flexGrow: 1,
     alignItems: 'center',
+    padding: '10px 0',
+    backgroundColor: 'black',
     '& img': {
-      margin: '8px'
+      margin: '4px'
+    },
+
+    [theme.breakpoints.up('tablet')]: {
+      maxWidth: '30%',
+      flexGrow: 1,
+      '& img': {
+        margin: '8px'
+      },
     }
+  },
+  rightSide: {
+    alignItems: 'stretch',
+    flexGrow: 1,
+
+    [theme.breakpoints.up('tablet')]: {
+      backgroundImage: `url(${mapBackground})`,
+      maxWidth: '70%',
+      minHeight: '100vh',
+      alignItems: 'center',
+    },
+  },
+  logoPic: {
+    [theme.breakpoints.up('laptop')]: {
+      width: '140px',
+      height: '140px'
+    },
   }
 }));
 
@@ -41,9 +65,9 @@ const LoginPage = () => {
   };
 
   return (
-    <Grid container direction="row" className={classes.root} >
+    <Grid container className={classes.root} >
       <Grid container item direction="column" justify="center" className={classes.leftSide} >
-        <img width="140" height="140" alt="loft-taxi logo-pic" src={logoPic} />
+        <img width="80" height="80" alt="loft-taxi logo-pic" src={logoPic} className={classes.logoPic} />
         <img width="192" height="36" alt="loft-taxi logo-text" src={logoText} />
       </Grid>
 

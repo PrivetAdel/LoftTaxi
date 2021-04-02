@@ -6,12 +6,19 @@ import {getOrder} from '../../redux/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3, 4, 1),
+    padding: theme.spacing(1, 2),
     position: 'absolute',
-    top: theme.spacing(2),
+    top: theme.spacing(4),
     left: theme.spacing(2),
     alignItems: 'start',
-    pointerEvents: 'all'
+    pointerEvents: 'all',
+    width: '80%',
+    maxWidth: '300px',
+
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(3, 4, 1),
+      top: theme.spacing(2),
+    }
   },
   title: {
     fontWeight: 700,
@@ -20,8 +27,13 @@ const useStyles = makeStyles((theme) => ({
   button: {
     borderRadius: '70px', 
     padding: '9px 30px',
-    fontSize: '1.2rem',
-    margin: theme.spacing(4, 0)
+    fontSize: '0.9rem',
+    margin: theme.spacing(2, 0),
+
+    [theme.breakpoints.up('laptop')]: {
+      fontSize: '1.2rem',
+      margin: theme.spacing(4, 0),
+    }
   }
 }));
 
@@ -34,7 +46,7 @@ const FormProfileSave = () => {
   }, []);
 
   return (
-    <Container maxWidth="xs" className={classes.root} >
+    <Container className={classes.root} >
       <Typography className={classes.title} variant="h5" data-testid="formTitle">
         Заказ размещен
       </Typography>

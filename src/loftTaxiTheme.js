@@ -2,13 +2,16 @@ import {createMuiTheme} from '@material-ui/core/styles';
 
 export const loftTaxiTheme = createMuiTheme({
   breakpoints: {
-    keys: ["xs", "sm", "md", "lg", "xl"],
+    keys: ["xs", "sm", "md", "lg", "xl", "tablet", "laptop", "desktop"],
     values: {
       xs: 375,
       sm: 600,
-      md: 840,
+      md: 800,
       lg: 1280,
-      xl: 1920
+      xl: 1920,
+      tablet: 736,
+      laptop: 1024,
+      desktop: 1280,
     }
   },
   palette: {

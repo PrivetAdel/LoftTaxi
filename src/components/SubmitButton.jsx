@@ -7,8 +7,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: '70px', 
     padding: theme.spacing(1, 4),
-    fontSize: '1.6rem',
-    margin: theme.spacing(4, 0)
+    fontSize: '1.2rem',
+    margin: theme.spacing(4, 0),
+
+    [theme.breakpoints.up('tablet')]: {
+      fontSize: '1.6rem',
+    }
   }
 }));
 

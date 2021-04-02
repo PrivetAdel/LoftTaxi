@@ -6,9 +6,15 @@ import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(7, 6, 4),
+    padding: theme.spacing(7, 4, 4),
     zIndex: 2,
-    pointerEvents: 'all'
+    pointerEvents: 'all',
+    margin: '0 20px',
+
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(7, 6, 4),
+      margin: 0,
+    }
   },
   title: {
     fontWeight: 700,
@@ -17,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     borderRadius: '70px', 
     padding: '9px 30px',
-    fontSize: '24px',
+    fontSize: '1rem',
     margin: theme.spacing(4, 0)
   },
   link: {

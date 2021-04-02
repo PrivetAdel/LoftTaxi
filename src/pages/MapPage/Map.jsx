@@ -4,11 +4,29 @@ import mapboxgl from 'mapbox-gl';
 import {drawRoute} from './drawRoute';
 import {useSelector, useDispatch} from 'react-redux';
 import {getOrder, addAddresses} from '../../redux/actions';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'absolute', 
+    top: 0, 
+    bottom: 0, 
+    minHeight: '100vh', 
+    width: '100%', 
+    zIndex: 0,
+
+    [theme.breakpoints.up('tablet')]: {
+      top: '77px',
+      minHeight: 'calc(100vh - 77px)', 
+    }
+  },
+}));
 
 const Map = () => {
   const dispatch = useDispatch();
   const routeCoords = useSelector(({orderReducer}) => orderReducer.routePoints);
   const isOrdered = useSelector(({orderReducer}) => orderReducer.isOrdered);
+  const classes = useStyles();
 
   mapboxgl.accessToken =
     "pk.eyJ1IjoicHJpdmV0YWRlbCIsImEiOiJja2xqOTJqaG0wYjIwMm9vYmx2emZyZW45In0.DkoxxbfMHFNwyYcCM5-vCw";
@@ -61,7 +79,7 @@ const Map = () => {
   }, [routeCoords]);
 
   return (
-    <div style={{position: 'absolute', top: '77px', bottom: '0', minHeight: 'calc(100vh - 77px)', width: '100%', zIndex: '0'}} data-testid="map" ref={mapContainer}></div>
+    <div data-testid="map" ref={mapContainer} className={classes.root} ></div>
   );
 };
 

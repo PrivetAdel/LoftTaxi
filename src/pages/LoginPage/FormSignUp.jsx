@@ -9,7 +9,23 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(4, 10)
+    padding: theme.spacing(4),
+    maxWidth: '100%',
+    justifyContent: 'center',
+    borderRadius: 0,
+
+    
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(4, 7),
+      maxWidth: '400px',
+      borderRadius: '20px',
+      margin: '20px 0',
+    },
+
+    [theme.breakpoints.up('laptop')]: {
+      padding: theme.spacing(4, 10),
+      maxWidth: '600px'
+    }
   },
   form: {
     width: '100%'
@@ -34,7 +50,7 @@ const FormSignUp = ({onLogIn}) => {
   };
 
   return (
-    <Container maxWidth="sm" className={classes.root} >
+    <Container className={classes.root} >
       <Typography className={classes.title} align="center" variant="h4">
         Регистрация
       </Typography>
@@ -87,7 +103,7 @@ const FormSignUp = ({onLogIn}) => {
         <SubmitButton>Зарегистрироваться</SubmitButton>
 
         <Typography color="textSecondary" align="center">
-          Уже зарегестрированны? 
+          Уже зарегестрированны?&ensp; 
           <Link onClick={onLogIn} >
             Войти
           </Link>

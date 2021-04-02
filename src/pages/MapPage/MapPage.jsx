@@ -6,20 +6,28 @@ import Map from './Map';
 import {Grid} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: '77px',
     alignItems: 'center',
-    minHeight: 'calc(100vh - 77px)'
+    minHeight: '100vh',
+
+    [theme.breakpoints.up('tablet')]: {
+      marginTop: '77px',
+      minHeight: 'calc(100vh - 77px)',
+    }
   },
   section: {
     position: 'relative', 
     width: '100%', 
-    height: 'calc(100vh - 77px)', 
+    height: '100vh', 
     display: 'flex', 
     justifyContent: 'center', 
     alignItems: 'center', 
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+
+    [theme.breakpoints.up('tablet')]: {
+      height: 'calc(100vh - 77px)',
+    }
   }
 }));
 

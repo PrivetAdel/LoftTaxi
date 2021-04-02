@@ -14,23 +14,47 @@ import masterCard from '../../assets/master-card-logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3, 8),
+    padding: theme.spacing(3, 5),
     zIndex: 2,
-    pointerEvents: 'all'
+    pointerEvents: 'all',
+    maxWidth: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    borderRadius: 0,
+
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(3, 8),
+      maxWidth: '80%',
+      borderRadius: '20px',
+      margin: '20px 0',
+      height: 'auto',
+    },
   },
   form: {
-    width: '100%'
+    width: '100%',
+  },
+  formBody: {
+    order: 2,
+
+    [theme.breakpoints.up('tablet')]: {
+      order: 0,
+    },
   },
   title: {
-    fontWeight: 700,
-    margin: theme.spacing(1, 0)
+    display: 'none',
+
+    [theme.breakpoints.up('tablet')]: {
+      display: 'block',
+      fontWeight: 700,
+      margin: theme.spacing(1, 0),
+    },
   },
   label: {
     marginTop: theme.spacing(1)
   },
   card: {
     padding: theme.spacing(2, 3),
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   data: {
     '& input': {
@@ -92,7 +116,7 @@ const FormProfile = ({cardData}) => {
     <>
       <Overlay />
       
-      <Container maxWidth="md" className={classes.root} >
+      <Container className={classes.root} >
         <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
           Профиль
         </Typography>
@@ -102,7 +126,7 @@ const FormProfile = ({cardData}) => {
         <form data-testid="form" className={classes.form} onSubmit={handleSubmit(saveCardDataHandler)}>
           <Grid container justify="center" spacing={2}>
             <Grid container direction="row" justify="space-between" spacing={5}>
-              <Grid container item xs={12} sm={6} spacing={2}>
+              <Grid className={classes.formBody}  container item xs={12} sm={6} spacing={2}>
                 <Grid item className={classes.longGrid}>
                   <InputLabel htmlFor="cardName" className={classes.label} >Имя владельца</InputLabel>
                   <Input
@@ -170,10 +194,10 @@ const FormProfile = ({cardData}) => {
                 </Grid>
               </Grid>
               
-              <Grid item xs={12} sm={5} >
-                <Container maxWidth="xs" className={classes.card} >
+              <Grid item xs={12} sm={6} >
+                <Container className={classes.card} >
                   <Grid container spacing={2} >
-                    <Grid container item alignItems="center" justify="space-between">
+                    <Grid container item wrap="nowrap" alignItems="center" justify="space-between">
                       <img width="33" height="33" src={logoPic} alt="loft-taxi logo-pic"/>
                       <MuiPickersUtilsProvider utils={DayjsUtils}>
                         <DatePicker

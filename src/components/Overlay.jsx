@@ -1,18 +1,22 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     top: 0, 
     left: 0, 
     width: '100%', 
-    height: 'calc(100vh - 77px)', 
+    height: '100vh', 
     zIndex: '1', 
     background: 'rgba(0, 0, 0, 0.5)', 
-    pointerEvents: 'all'
+    pointerEvents: 'all',
+
+    [theme.breakpoints.up('tablet')]: {
+      height: 'calc(100vh - 77px)'
+    }
   }
-});
+}));
 
 const Overlay = () => {
   const classes = useStyles();
