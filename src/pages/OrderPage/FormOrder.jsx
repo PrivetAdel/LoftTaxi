@@ -1,10 +1,12 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Container, Grid, NativeSelect, InputLabel, FormControl, FormHelperText} from '@material-ui/core';
+import {Container, Grid, NativeSelect, InputLabel, FormControl, FormHelperText, InputAdornment} from '@material-ui/core';
 import {SubmitButton} from '../../components';
 import {useSelector, useDispatch} from 'react-redux';
 import {addAddresses} from '../../redux/actions';
 import {useForm} from 'react-hook-form';
+import startPoint from '../../assets/start-point.svg';
+import endPoint from '../../assets/end-point.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +66,11 @@ const FormOrder = () => {
               inputProps={{"data-testid": "select"}}
               inputRef={register({required: true})}
               error={errors.password ? true : false}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img width="17" height="17" src={startPoint} alt=""/>
+                </InputAdornment>
+              }
             >
               <option value="" />
               {
@@ -80,6 +87,11 @@ const FormOrder = () => {
               name="address2"
               inputRef={register({required: true})}
               error={errors.password ? true : false}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img width="17" height="17" src={endPoint} alt=""/>
+                </InputAdornment>
+              }
             >
               <option value="" />
               {

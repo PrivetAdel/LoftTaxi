@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
       margin: '20px 0',
       height: 'auto',
     },
+
+    [theme.breakpoints.up('laptop')]: {
+      maxWidth: '50%',
+    }
   },
   form: {
     width: '100%',
@@ -150,10 +154,11 @@ const FormProfile = ({cardData}) => {
                     name="cardNumber"
                     placeholder="0000 0000 0000 0000"
                     defaultValue={cardData.cardNumber}
-                    inputRef={register({required: true})}
+                    inputRef={register({required: true, minLength: 19})}
                     onChange={(evt) => setValue("cardNumber", maskNumber(evt.target.value))}
                     error={!!errors.cardNumber} />
-                  {errors.cardNumber && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
+                  {errors.cardNumber && errors.cardNumber.type === "required" && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
+                  {errors.cardNumber && errors.cardNumber.type === "minLength" && <FormHelperText>Номер карты состоит из 16 цифр</FormHelperText>}
                 </Grid>
 
                 <Grid container item className={classes.longGrid} spacing={2} >
@@ -187,9 +192,10 @@ const FormProfile = ({cardData}) => {
                       placeholder="000"
                       defaultValue={cardData.cvc}
                       onChange={(evt) => setValue("cvc", maskCvc(evt.target.value))}
-                      inputRef={register({required: true})}
+                      inputRef={register({required: true, minLength: 3})}
                       error={!!errors.cvc} />
-                    {errors.cvc && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
+                    {errors.cvc && errors.cvc.type === "required" && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
+                    {errors.cvc && errors.cvc.type === "minLength" && <FormHelperText>CVC состоит из 3 цифр</FormHelperText>}
                   </Grid>
                 </Grid>
               </Grid>

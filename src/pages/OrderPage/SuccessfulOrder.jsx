@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
 
     [theme.breakpoints.up('laptop')]: {
-      fontSize: '1.2rem',
+      fontSize: '1rem',
       margin: theme.spacing(4, 0),
     }
   }

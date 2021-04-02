@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('tablet')]: {
       margin: 0,
       padding: theme.spacing(7, 6, 4),
+    },
+
+    [theme.breakpoints.up('laptop')]: {
+      maxWidth: '50%',
     }
   },
   text: {
