@@ -52,8 +52,14 @@ export const saveCardData = (cardName, cardNumber, expiryDate, cvc) => ({
   }
 });
 
-export const getCard = () => ({
-  type: GET_CARD
+export const getCard = ({cardName, cardNumber, expiryDate, cvc}) => ({
+  type: GET_CARD,
+  payload: {
+    cardName, 
+    cardNumber, 
+    expiryDate, 
+    cvc
+  }
 });
 
 export const getAddresses = (addresses) => ({

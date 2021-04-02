@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, act} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import FormProfile from './FormProfile';
 
@@ -81,7 +81,7 @@ describe("FormProfile", () => {
   });
 
 
-  it("submit form", () => {
+  it("submit form", async () => {
     const saveCardData = jest.fn();
 
     const mockStore = {
@@ -96,7 +96,10 @@ describe("FormProfile", () => {
       </Provider>
     );
 
-    fireEvent.submit(getByTestId('form'));
+    await act(async () => {
+      fireEvent.submit(getByTestId('form'));
+    });
+    
     expect(saveCardData).toHaveBeenCalled();
   });
 });

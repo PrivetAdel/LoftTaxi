@@ -1,12 +1,35 @@
-import React, {useCallback} from 'react';
-import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import React from 'react';
+import {Container, Typography, InputLabel, Input, Link, FormHelperText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import {signUp} from '../../redux/actions';
-import {FormContainer, Form, SubmitButton} from '../../components';
+import {useForm} from 'react-hook-form';
+import {SubmitButton} from '../../components';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(4),
+    maxWidth: '100%',
+    justifyContent: 'center',
+    borderRadius: 0,
+
+    
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(4, 7),
+      maxWidth: '400px',
+      borderRadius: '20px',
+      margin: '20px 0',
+    },
+
+    [theme.breakpoints.up('laptop')]: {
+      padding: theme.spacing(4, 10),
+      maxWidth: '600px'
+    }
+  },
+  form: {
+    width: '100%'
+  },
   title: {
     fontWeight: 700,
     margin: theme.spacing(1, 0, 2)
@@ -17,96 +40,76 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormSignUp = ({onLogIn}) => {
+  const {register, handleSubmit, errors} = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [email, setEmail] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [surname, setSurname] = React.useState('');
-  const [password, setPassword] = React.useState('');
 
-  const emailChangeHandle = (evt) => {
-    setEmail(evt.target.value);
-  };
-
-  const nameChangeHandle = (evt) => {
-    setName(evt.target.value);
-  };
-
-  const surnameChangeHandle = (evt) => {
-    setSurname(evt.target.value);
-  }
-
-  const passwordChangeHandle = (evt) => {
-    setPassword(evt.target.value);
-  };
-
-  const registrationHandler = useCallback((email, password, name, surname) => {
+  const registrationHandler = (data) => {
+    const {email, password, name, surname} = data;
     dispatch(signUp(email, password, name, surname));
-  }, []);
-
-  const signUpHandler = (evt) => {
-    evt.preventDefault();
-    registrationHandler(email, password, name, surname);
   };
 
   return (
-    <FormContainer maxWidth="sm" padding="8, 12">
+    <Container className={classes.root} >
       <Typography className={classes.title} align="center" variant="h4">
         Регистрация
       </Typography>
 
-      <Form onSubmitHandler={signUpHandler}>
+      <form data-testid="form" className={classes.form} onSubmit={handleSubmit(registrationHandler)} >
         <InputLabel htmlFor="email" className={classes.label} >Email*</InputLabel>
         <Input
+          fullWidth
           type="text"
           id="email"
-          value={email}
+          name="email"
           placeholder="mail@mail.ru"
-          onChange={emailChangeHandle}
-          fullWidth
-          required />
+          inputRef={register({required: true})}
+          error={!!errors.email} />
+        {errors.email && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
 
         <InputLabel htmlFor="name" className={classes.label} >Имя*</InputLabel>
         <Input
+          fullWidth
           type="text"
           id="name"
-          value={name}
+          name="name"
           placeholder="Петр"
-          onChange={nameChangeHandle}
-          fullWidth
-          required />
-
+          inputRef={register({required: true})}
+          error={!!errors.name} />
+          {errors.name && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
 
         <InputLabel htmlFor="surname" className={classes.label} >Фамилия*</InputLabel>
         <Input
+          fullWidth
           type="text"
           id="surname"
-          value={surname}
+          name="surname"
           placeholder="Петров"
-          onChange={surnameChangeHandle}
-          fullWidth
-          required />
+          inputRef={register({required: true})}
+          error={!!errors.surname} />
+        {errors.surname && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
 
         <InputLabel htmlFor="password" className={classes.label} >Придумайте пароль*</InputLabel>
         <Input
+          fullWidth
           type="text"
           id="password"
-          value={password}
+          name="password"
           placeholder="*************"
-          onChange={passwordChangeHandle}
-          fullWidth
-          required />
+          inputRef={register({required: true})}
+          error={!!errors.password} />
+        {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
 
         <SubmitButton>Зарегистрироваться</SubmitButton>
 
         <Typography color="textSecondary" align="center">
-          Уже зарегестрированны? 
+          Уже зарегестрированны?&ensp; 
           <Link onClick={onLogIn} >
             Войти
           </Link>
         </Typography>
-      </Form>
-    </FormContainer>
+      </form>
+    </Container>
   );
 };
 

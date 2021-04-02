@@ -9,14 +9,14 @@ const ProfilePage = () => {
   const isOrdered = useSelector(({orderReducer}) => orderReducer.isOrdered);
 
   return (
-    <div>
+    <>
       { 
         (cardName && cardNumber && expiryDate && cvc ? 
           (isOrdered ? <SuccessfulOrder /> : <FormOrder />) : 
           <FormProfileEmpty />
         )
       }
-    </div>
+    </>
   )
 };
 

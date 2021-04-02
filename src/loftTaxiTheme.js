@@ -2,13 +2,16 @@ import {createMuiTheme} from '@material-ui/core/styles';
 
 export const loftTaxiTheme = createMuiTheme({
   breakpoints: {
-    keys: ["xs", "sm", "md", "lg", "xl"],
+    keys: ["xs", "sm", "md", "lg", "xl", "tablet", "laptop", "desktop"],
     values: {
       xs: 375,
       sm: 600,
-      md: 840,
+      md: 800,
       lg: 1280,
-      xl: 1920
+      xl: 1920,
+      tablet: 736,
+      laptop: 1024,
+      desktop: 1280,
     }
   },
   palette: {
@@ -52,8 +55,17 @@ export const loftTaxiTheme = createMuiTheme({
     },
     MuiFormHelperText: {
       root: {
-        position: "absolute",
-        bottom: "-1.2em"
+        color: "red"
+      }
+    },
+    MuiContainer: {
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxShadow: '0px 0px 40px rgba(0, 0, 0, 0.1)',
+        borderRadius: '20px',
+        backgroundColor: '#fff'
       }
     },
     MuiButton: {

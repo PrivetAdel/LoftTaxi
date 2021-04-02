@@ -1,102 +1,110 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {FormControlLabel, Radio, RadioGroup, Grid, Select, MenuItem} from '@material-ui/core';
-import {FormContainer, Form, SubmitButton} from '../../components';
+import {Container, Grid, NativeSelect, InputLabel, FormControl, FormHelperText, InputAdornment} from '@material-ui/core';
+import {SubmitButton} from '../../components';
 import {useSelector, useDispatch} from 'react-redux';
 import {addAddresses} from '../../redux/actions';
-// import carBusinnes from '../../assets/car-business.png';
-// import carPremium from '../../assets/car-premium.png';
-// import carStandard from '../../assets/car-standard.png';
+import {useForm} from 'react-hook-form';
+import startPoint from '../../assets/start-point.svg';
+import endPoint from '../../assets/end-point.svg';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'absolute',
+    top: theme.spacing(5),
+    left: theme.spacing(2),
+    padding: theme.spacing(0),
+    pointerEvents: 'all',
+    maxWidth: '286px',
+
+    [theme.breakpoints.up('tablet')]: {
+      top: theme.spacing(2),
+    }
+  },
+  form: {
+    width: '100%'
+  },
+  controll: {
+    marginTop: theme.spacing(2)
+  },
   label: {
-    marginTop: theme.spacing(3)
+    color: theme.secondary,
+    fontWeight: 300
   },
-  smallGrid: {
-    maxWidth: '50%'
-  },
-  longGrid: {
-    flexGrow: 1
+  inputBlock: {
+    padding: theme.spacing(2, 2, 0),
+
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(3),
+    }
   }
 }));
 
 const FormOrder = () => {
+  const {register, handleSubmit, watch, errors} = useForm();
+  const addressList = useSelector(({orderReducer}) => orderReducer.addresses);
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [carClass, setCarClass] = React.useState('standard');
-  const [address1, setAddress1] = React.useState('откуда');
-  const [address2, setAddress2] = React.useState('куда');
-  const addressList = useSelector(({orderReducer}) => orderReducer.addresses);
 
-  const changeClassHandler = (evt) => {
-    setCarClass(evt.target.value);
-  };
-  
-  const address1ChangeHandler = (evt) => {
-    setAddress1(evt.target.value);
-  };
+  const watchAddress1 = watch("address1");
+  const watchAddress2 = watch("address2");
 
-  const address2ChangeHandler = (evt) => {
-    setAddress2(evt.target.value);
-  };
-
-  const getRouteHandler = useCallback((address1, address2) => {
+  const getRouteHandler = (data) => {
+    const {address1, address2} = data;
     dispatch(addAddresses(address1, address2));
-  }, []);
-
-  const submitHandler = (evt) => {
-    evt.preventDefault();
-    getRouteHandler(address1, address2);
   };
 
   return (
-    <FormContainer maxWidth="xs"  padding="5">
-      <Form onSubmitHandler={submitHandler}>
-        <Grid container direction="row" justify="center" spacing={2}>
-          <Grid container item xs={12} sm={6} spacing={2}>
-            <Grid item className={classes.longGrid}>
-              <Select
-                labelId="address1"
-                id="address1"
-                value={address1}
-                onChange={address1ChangeHandler}
-              >
-                {
-                  addressList.map((address, index) => <MenuItem key={`${address}_${index}`} value={address}>{address}</MenuItem>)
-                }
-              </Select>
-            </Grid>
+    <Container className={classes.root} >
+      <form data-testid="form" className={classes.form} onSubmit={handleSubmit(getRouteHandler)} >
+        <Grid container direction="column" className={classes.inputBlock} >
+          <FormControl>
+            <InputLabel htmlFor="address1" className={classes.label}>Откуда</InputLabel>
+            <NativeSelect
+              id="address1"
+              name="address1"
+              inputProps={{"data-testid": "select"}}
+              inputRef={register({required: true})}
+              error={errors.password ? true : false}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img width="17" height="17" src={startPoint} alt=""/>
+                </InputAdornment>
+              }
+            >
+              <option value="" />
+              {
+                addressList.filter(address => address !== watchAddress2).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
+              }
+            </NativeSelect>
+            {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
+          </FormControl>
 
-            <Grid item className={classes.longGrid}>
-              <Select
-                labelId="address2"
-                id="address2"
-                value={address2}
-                onChange={address2ChangeHandler}
-              >
-                {
-                  addressList.filter(address => address !== `${address1}`).map((address, index) => <MenuItem key={`${address}_${index}`} value={address}>{address}</MenuItem>)
-                }
-              </Select>
-            </Grid>
-          </Grid>
+          <FormControl className={classes.controll}>
+            <InputLabel htmlFor="address2" className={classes.label}>Куда</InputLabel>
+            <NativeSelect
+              id="address2"
+              name="address2"
+              inputRef={register({required: true})}
+              error={errors.password ? true : false}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img width="17" height="17" src={endPoint} alt=""/>
+                </InputAdornment>
+              }
+            >
+              <option value="" />
+              {
+                addressList.filter(address => address !== watchAddress1).map((address, index) => <option key={`${address}_${index}`} value={address}>{address}</option>)
+              }
+            </NativeSelect>
+            {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
+          </FormControl>
 
-          <FormContainer maxWidth="xs"  padding="5">
-            <Grid container item className={classes.longGrid} spacing={2}>
-              <RadioGroup aria-label="carClass" name="carClass" value={carClass} onChange={changeClassHandler} >
-                <FormControlLabel value="standard" control={<Radio />} label="standard" />
-                <FormControlLabel value="premium" control={<Radio />} label="premium" />
-                <FormControlLabel value="business" control={<Radio />} label="business" />
-              </RadioGroup>
-            </Grid>
-
-            <Grid container item className={classes.smallGrid}>
-              <SubmitButton>Заказать</SubmitButton>
-            </Grid>
-          </FormContainer>
+          <SubmitButton>Заказать</SubmitButton>
         </Grid>
-      </Form>
-    </FormContainer>
+      </form>
+    </Container>
   );
 };
 

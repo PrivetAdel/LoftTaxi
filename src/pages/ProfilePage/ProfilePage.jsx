@@ -14,11 +14,11 @@ const ProfilePage = () => {
   }, [])
 
   return (
-    <div>
+    <>
       { 
         (!isCardData ? <FormProfile cardData={cardData} /> : <FormProfileSave />)
       }
-    </div>
+    </>
   );
 };
 

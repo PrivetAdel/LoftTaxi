@@ -11,7 +11,7 @@ describe("Map", () => {
       getState: () => ({
         orderReducer: {
           isOrdered: false, 
-          routePoints: [[30, 50], [31, 51], [32, 52]]
+          routePoints: []
         }
       }),
       subscribe: () => {},

@@ -1,23 +1,34 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Typography} from '@material-ui/core';
+import {Typography, Container, Button} from '@material-ui/core';
+import {Overlay} from '../../components';
 import {Link} from 'react-router-dom';
-import {FormContainer} from '../../components';
-import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(7, 4, 4),
+    zIndex: 2,
+    pointerEvents: 'all',
+    margin: '0 20px',
+
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(7, 6, 4),
+      margin: 0,
+    }
+  },
   title: {
     fontWeight: 700,
-    margin: loftTaxiTheme.spacing(1, 0, 2)
+    margin: theme.spacing(1, 0, 2)
   },
-  smallGrid: {
-    maxWidth: '70%'
-  },
-  link: {
+  button: {
     borderRadius: '70px', 
     padding: '9px 30px',
-    fontSize: '24px',
-    margin: loftTaxiTheme.spacing(6, 0, 4)
+    fontSize: '1rem',
+    margin: theme.spacing(4, 0)
+  },
+  link: {
+    color: 'black',
+    textDecoration: 'none'
   }
 }));
 
@@ -25,15 +36,24 @@ const FormProfileSave = () => {
   const classes = useStyles();
 
   return (
-    <FormContainer maxWidth="md"  padding="5">
-      <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
-        Профиль
-      </Typography>
-      <Typography align="center" variant="subtitle2" color="textSecondary">
-        Платёжные данные обновлены. Теперь вы можете заказывать такси.
-      </Typography>
-      <Link to="/main" className={classes.MuiButton}>Перейти на карту</Link>
-    </FormContainer>
+    <>
+      <Overlay />
+
+      <Container maxWidth="sm" className={classes.root} >
+        <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
+          Профиль
+        </Typography>
+        <Typography align="center" variant="subtitle2" color="textSecondary">
+          Платёжные данные обновлены. Теперь вы можете заказывать такси.
+        </Typography>
+        <Button
+          variant="contained" 
+          color="primary" 
+          className={classes.button}>
+          <Link to="/main" className={classes.link}>Перейти на карту</Link>
+        </Button>
+      </Container>
+    </>
   );
 };
 

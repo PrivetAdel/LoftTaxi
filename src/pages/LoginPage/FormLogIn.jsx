@@ -1,47 +1,55 @@
-import React, {useCallback} from 'react';
-import {Typography, InputLabel, Input, Link} from '@material-ui/core';
+import React from 'react';
+import {Container, Typography, InputLabel, Input, Link, FormHelperText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
-import {FormContainer, Form, SubmitButton} from '../../components';
+import {SubmitButton} from '../../components';
+import {useForm} from 'react-hook-form';
 import {logIn} from '../../redux/actions';
 import PropTypes from 'prop-types';
-import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(4, 6),
+    maxWidth: '100%',
+    justifyContent: 'center',
+    borderRadius: 0,
+
+    [theme.breakpoints.up('tablet')]: {
+      padding: theme.spacing(6),
+      maxWidth: '400px',
+      borderRadius: '20px',
+      margin: '20px 0',
+    },
+
+    [theme.breakpoints.up('laptop')]: {
+      padding: theme.spacing(6, 10),
+      maxWidth: '600px'
+    }
+  },
+  form: {
+    width: '100%'
+  },
   title: {
     fontWeight: 700,
-    margin: loftTaxiTheme.spacing(1, 0, 2)
+    margin: theme.spacing(1, 0, 2)
   },
   label: {
-    marginTop: loftTaxiTheme.spacing(3)
+    marginTop: theme.spacing(3)
   },
   link: {
     color: '#828282'
-  },
+  }
 }));
 
 const FormLogin = ({onSignUp}) => {
+  const {register, handleSubmit, errors} = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
 
-  const emailChangeHandle = (evt) => {
-    setEmail(evt.target.value);
-  }
-
-  const passwordChangeHandle = (evt) => {
-    setPassword(evt.target.value);
-  }
-
-  const loginHandler = useCallback((email, password) => {
+  const submitFormHandler = (data) => {
+    const {email, password} = data;
     dispatch(logIn(email, password));
-  }, []);
-
-  const submitFormHandler = (evt) => {
-    evt.preventDefault();
-    loginHandler(email, password);
-  }
+  };
 
   const forgotPasswordHandler = (evt) => {
     evt.preventDefault();
@@ -49,32 +57,33 @@ const FormLogin = ({onSignUp}) => {
   }
 
   return (
-    <FormContainer maxWidth="sm" padding="8" >
+    <Container className={classes.root} >
       <Typography className={classes.title} align="center" variant="h4" data-testid="formTitle">
         Войти
       </Typography>
 
-      <Form onSubmitHandler={submitFormHandler} >
-
+      <form data-testid="form" className={classes.form} onSubmit={handleSubmit(submitFormHandler)} >
         <InputLabel htmlFor="email" className={classes.label} >Email</InputLabel>
         <Input
-          type="email"
-          id="email"
-          value={email}
-          placeholder="mail@mail.ru"
-          onChange={emailChangeHandle}
           fullWidth
-          required />
+          id="email"
+          name="email"
+          type="email"
+          placeholder="mail@mail.ru"
+          inputRef={register({required: true})}
+          error={!!errors.password} />
+        {errors.email && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
 
         <InputLabel htmlFor="password" className={classes.label} >Пароль</InputLabel>
         <Input
-          type="password"
-          id="password"
-          value={password}
-          placeholder="*************"
-          onChange={passwordChangeHandle}
           fullWidth
-          required />
+          id="password"
+          name="password"
+          type="password"
+          placeholder="*************"
+          inputRef={register({required: true})}
+          error={errors.password ? true : false} />
+        {errors.password && <FormHelperText>Поле обязательно для заполнения</FormHelperText>}
         
         <Typography align="right" className={classes.label} >
           <Link onClick={forgotPasswordHandler} className={classes.link}>Забыли пароль?</Link>
@@ -83,13 +92,13 @@ const FormLogin = ({onSignUp}) => {
         <SubmitButton>Войти</SubmitButton>
       
         <Typography color="textSecondary" align="center">
-          Новый пользователь? 
+          Новый пользователь?&ensp;
           <Link onClick={onSignUp}>
             Регистрация
           </Link>
         </Typography>
-      </Form>
-    </FormContainer>
+      </form>
+    </Container>
   );
 };
 

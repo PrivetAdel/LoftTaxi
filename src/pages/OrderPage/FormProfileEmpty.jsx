@@ -1,30 +1,68 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Typography} from '@material-ui/core';
+import {Typography, Container, Button} from '@material-ui/core';
+import {Overlay} from '../../components';
 import {Link} from 'react-router-dom';
-import {FormContainer} from '../../components';
-import {loftTaxiTheme} from '../../loftTaxiTheme';
 
-const useStyles = makeStyles((loftTaxiTheme) => ({
-  link: {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: '0 20px',
+    padding: theme.spacing(7, 2, 4),
+    zIndex: 2,
+    pointerEvents: 'all',
+    maxWidth: '80%',
+
+    [theme.breakpoints.up('tablet')]: {
+      margin: 0,
+      padding: theme.spacing(7, 6, 4),
+    },
+
+    [theme.breakpoints.up('laptop')]: {
+      maxWidth: '50%',
+    }
+  },
+  text: {
+    fontSize: '1.2rem',
+
+    [theme.breakpoints.up('tablet')]: {
+      fontSize: '1.6rem',
+    }
+  },
+  button: {
     borderRadius: '70px', 
     padding: '9px 30px',
-    fontSize: '24px',
-    backgroundColor: '#fdbf5a'
-    // margin: theme.spacing(6, 0, 4)
+    fontSize: '1rem',
+    margin: theme.spacing(4, 0),
+
+    [theme.breakpoints.up('tablet')]: {
+      fontSize: '1.6rem',
+    }
+  },
+  link: {
+    color: 'black',
+    textDecoration: 'none'
   }
 }));
 
 const FormProfileEmpty = () => {
-  const classes = useStyles(loftTaxiTheme);
+  const classes = useStyles();
 
   return (
-    <FormContainer maxWidth="md"  padding="5">
-      <Typography align="center" variant="h5">
-        Для заказа такси заполните платёжные данные.
-      </Typography>
-      <Link to="/main/profile" className={classes.link}>Перейти в профиль</Link>
-    </FormContainer>
+    <>
+      <Overlay />
+      
+      <Container className={classes.root} >
+        <Typography align="center" variant="h5" className={classes.text} >
+          Для заказа такси заполните платёжные&nbsp;данные
+        </Typography>
+        <Button
+          variant="contained" 
+          color="primary" 
+          className={classes.button}>
+          <Link to="/main/profile" className={classes.link}>Перейти в профиль</Link>
+        </Button>
+      </Container>
+    </>
   );
 };
 

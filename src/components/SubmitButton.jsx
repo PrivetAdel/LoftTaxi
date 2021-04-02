@@ -6,9 +6,13 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: '70px', 
-    padding: '9px 30px',
-    fontSize: '24px',
-    margin: theme.spacing(6, 0, 4)
+    padding: theme.spacing(1, 4),
+    fontSize: '1.2rem',
+    margin: theme.spacing(4, 0),
+
+    [theme.breakpoints.up('tablet')]: {
+      fontSize: '1.6rem',
+    }
   }
 }));
 
@@ -17,11 +21,11 @@ const SubmitButton = ({children}) => {
 
   return (
     <Button 
+      fullWidth
       type="submit" 
       variant="contained" 
       color="primary" 
       className={classes.root}
-      fullWidth
     >
       {children}
     </Button>
