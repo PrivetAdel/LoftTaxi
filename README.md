@@ -1,5 +1,5 @@
-# Сервис для заказа такси [Loft Taxi](https://loft-taxi-app.herokuapp.com/);
-____
+# Сервис для заказа такси [Loft Taxi](https://loft-taxi-app.herokuapp.com/)
+
 Демо логин: test@test.com пароль: 123123 (или создайте свою учетную запись)
 ____
 Для авторизации, получения данных о маршруте и списка доступных адресов - использован [сервер](https://loft-taxi.glitch.me/).
