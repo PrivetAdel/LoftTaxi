@@ -4,6 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Link, NavLink} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {logOut} from '../redux/actions';
+import useWindowSize from '../hooks';
 import logoPic from '../assets/logo-pic.svg';
 import logoText from '../assets/logo-text.svg';
 import menuButton from '../assets/menu-button.svg';
@@ -92,12 +93,17 @@ const activePage = (match, location) => {
 };
 
 const Header = () => {
+  const size = useWindowSize();
   const [isOpen, setOpen] = React.useState(true);
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const toggleMenuHandler = () => {
-    setOpen((state) => !state);
+    if(size.width < 768) {
+      setOpen((state) => !state);
+    }
+
+    return;
   };
 
   const logoutHandler = useCallback(() => {
